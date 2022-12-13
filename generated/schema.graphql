@@ -8,7 +8,7 @@ type Mutation {
 }
 
 type Query {
-  test(bool: Boolean!): Boolean
+  ok: Boolean!
 }
 
 input loginCredentials {

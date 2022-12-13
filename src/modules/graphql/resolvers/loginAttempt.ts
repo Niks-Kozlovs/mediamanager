@@ -15,6 +15,7 @@ export const loginAttempt: FieldResolver<"Mutation", "login"> = async (_, { cred
         maxAge: 60*5,
         sameSite: true,
         secure: process.env.NODE_ENV === "production",
+        path: "/",
     } as CookieSerializeOptions);
 
     return {

@@ -1,15 +1,10 @@
-import {
-  extendType,
-  inputObjectType,
-  nonNull,
-  objectType,
-} from "nexus";
+import { extendType, inputObjectType, nonNull, objectType } from "nexus";
 import { createAccount } from "../resolvers/createAccount";
 import { loginAttempt } from "../resolvers/loginAttempt";
 
 export const CreateAccount = extendType({
   type: "Mutation",
-  definition: t => {
+  definition: (t) => {
     t.field("createAccount", {
       type: RegisterResponse,
       args: { credentials: nonNull(RegisterCredentials) },
@@ -20,7 +15,7 @@ export const CreateAccount = extendType({
 
 export const Login = extendType({
   type: "Mutation",
-  definition: t => {
+  definition: (t) => {
     t.field("login", {
       type: LoginResponse,
       args: { credentials: nonNull(LoginCredentials) },
@@ -31,14 +26,14 @@ export const Login = extendType({
 
 const LoginResponse = objectType({
   name: "loginResponse",
-  definition: t => {
+  definition: (t) => {
     t.string("username");
   },
 });
 
 const LoginCredentials = inputObjectType({
   name: "loginCredentials",
-  definition: t => {
+  definition: (t) => {
     t.nonNull.string("email");
     t.nonNull.string("password");
   },
@@ -46,7 +41,7 @@ const LoginCredentials = inputObjectType({
 
 const RegisterCredentials = inputObjectType({
   name: "registerCredentials",
-  definition: t => {
+  definition: (t) => {
     t.nonNull.string("email");
     t.nonNull.string("username");
     t.nonNull.string("password");
@@ -55,7 +50,7 @@ const RegisterCredentials = inputObjectType({
 
 const RegisterResponse = objectType({
   name: "registerResponse",
-  definition: t => {
+  definition: (t) => {
     t.nonNull.string("message");
   },
 });

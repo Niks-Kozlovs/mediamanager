@@ -63,7 +63,7 @@ export interface NexusGenFieldTypes {
     login: NexusGenRootTypes['loginResponse'] | null; // loginResponse
   }
   Query: { // field return type
-    test: boolean | null; // Boolean
+    ok: boolean; // Boolean!
   }
   loginResponse: { // field return type
     username: string | null; // String
@@ -79,7 +79,7 @@ export interface NexusGenFieldTypeNames {
     login: 'loginResponse'
   }
   Query: { // field return type name
-    test: 'Boolean'
+    ok: 'Boolean'
   }
   loginResponse: { // field return type name
     username: 'String'
@@ -96,11 +96,6 @@ export interface NexusGenArgTypes {
     }
     login: { // args
       credentials: NexusGenInputs['loginCredentials']; // loginCredentials!
-    }
-  }
-  Query: {
-    test: { // args
-      bool: boolean; // Boolean!
     }
   }
 }
