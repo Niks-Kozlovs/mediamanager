@@ -24,7 +24,7 @@ export const createAccount: FieldResolver<
 
     return {
       message:
-        "Thanks for registering! Check your email to validate your account.",
+        "Thanks for registering!",
       error: false,
     };
   } catch (err) {

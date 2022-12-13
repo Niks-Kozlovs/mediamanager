@@ -17,6 +17,10 @@ export interface NexusGenInputs {
   loginCredentials: { // input type
     email: string; // String!
     password: string; // String!
+  }
+  registerCredentials: { // input type
+    email: string; // String!
+    password: string; // String!
     username: string; // String!
   }
 }
@@ -35,6 +39,11 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Mutation: {};
   Query: {};
+  loginResponse: { // root type
+    error: boolean; // Boolean!
+    message?: string | null; // String
+    username?: string | null; // String
+  }
   registerResponse: { // root type
     error: boolean; // Boolean!
     message: string; // String!
@@ -54,9 +63,15 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createAccount: NexusGenRootTypes['registerResponse'] | null; // registerResponse
+    login: NexusGenRootTypes['loginResponse'] | null; // loginResponse
   }
   Query: { // field return type
     test: boolean | null; // Boolean
+  }
+  loginResponse: { // field return type
+    error: boolean; // Boolean!
+    message: string | null; // String
+    username: string | null; // String
   }
   registerResponse: { // field return type
     error: boolean; // Boolean!
@@ -67,9 +82,15 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createAccount: 'registerResponse'
+    login: 'loginResponse'
   }
   Query: { // field return type name
     test: 'Boolean'
+  }
+  loginResponse: { // field return type name
+    error: 'Boolean'
+    message: 'String'
+    username: 'String'
   }
   registerResponse: { // field return type name
     error: 'Boolean'
@@ -80,6 +101,9 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createAccount: { // args
+      credentials: NexusGenInputs['registerCredentials']; // registerCredentials!
+    }
+    login: { // args
       credentials: NexusGenInputs['loginCredentials']; // loginCredentials!
     }
   }

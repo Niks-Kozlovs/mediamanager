@@ -3,7 +3,8 @@
 
 
 type Mutation {
-  createAccount(credentials: loginCredentials!): registerResponse
+  createAccount(credentials: registerCredentials!): registerResponse
+  login(credentials: loginCredentials!): loginResponse
 }
 
 type Query {
@@ -11,6 +12,17 @@ type Query {
 }
 
 input loginCredentials {
+  email: String!
+  password: String!
+}
+
+type loginResponse {
+  error: Boolean!
+  message: String
+  username: String
+}
+
+input registerCredentials {
   email: String!
   password: String!
   username: String!
