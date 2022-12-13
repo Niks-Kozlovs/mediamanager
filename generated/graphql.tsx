@@ -15,6 +15,24 @@ export type Scalars = {
   Float: number;
 };
 
+export type Movie = {
+  __typename?: 'Movie';
+  adult: Scalars['Boolean'];
+  backdrop_path?: Maybe<Scalars['String']>;
+  genre_ids?: Maybe<Array<Scalars['Int']>>;
+  id: Scalars['Int'];
+  original_language: Scalars['String'];
+  original_title: Scalars['String'];
+  overview: Scalars['String'];
+  popularity: Scalars['Float'];
+  poster_path?: Maybe<Scalars['String']>;
+  release_date: Scalars['String'];
+  title: Scalars['String'];
+  video: Scalars['Boolean'];
+  vote_average: Scalars['Float'];
+  vote_count: Scalars['Int'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAccount?: Maybe<RegisterResponse>;
@@ -33,7 +51,7 @@ export type MutationLoginArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  ok: Scalars['Boolean'];
+  getPopularMovies?: Maybe<MovieResults>;
 };
 
 export type LoginCredentials = {
@@ -44,6 +62,14 @@ export type LoginCredentials = {
 export type LoginResponse = {
   __typename?: 'loginResponse';
   username?: Maybe<Scalars['String']>;
+};
+
+export type MovieResults = {
+  __typename?: 'movieResults';
+  page: Scalars['String'];
+  results?: Maybe<Array<Movie>>;
+  total_pages: Scalars['String'];
+  total_results: Scalars['String'];
 };
 
 export type RegisterCredentials = {
