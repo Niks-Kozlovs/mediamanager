@@ -6,29 +6,21 @@ import nookies from "nookies";
 import { createToken } from "../../utils/jwt";
 
 export const loginAttempt: FieldResolver<"Mutation", "login"> = async (_, { credentials }, { prisma, res }) => {
-    try {
-        const user = await getExistingUser(credentials, prisma);
-        const encodedToken = await createToken({ username: user.username }, { expiresIn: "1d" });
+    const user = await getExistingUser(credentials, prisma);
+    const encodedToken = await createToken({ username: user.username }, { expiresIn: "1d" });
 
-        nookies.set({ res }, "sid", encodedToken, {
-            httpOnly: true,
-            domain: process.env.SERVER_DOMAIN || undefined,
-            maxAge: 60*5,
-            sameSite: true,
-            secure: process.env.NODE_ENV === "production",
-        } as CookieSerializeOptions);
+    nookies.set({ res }, "sid", encodedToken, {
+        httpOnly: true,
+        domain: process.env.SERVER_DOMAIN || undefined,
+        maxAge: 60*5,
+        sameSite: true,
+        secure: process.env.NODE_ENV === "production",
+    } as CookieSerializeOptions);
 
-        return {
-            error: false,
-            username: user.username,
-        };
-    } catch (error) {
-        const errMsg = (error as Error).message || "Login failed.";
-        return {
-            error: true,
-            message: errMsg,
-        };
-    }
+    return {
+        error: false,
+        username: user.username,
+    };
 };
 
 const getExistingUser = async (

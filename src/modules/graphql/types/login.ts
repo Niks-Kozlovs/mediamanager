@@ -32,8 +32,6 @@ export const Login = extendType({
 const LoginResponse = objectType({
   name: "loginResponse",
   definition: t => {
-    t.nonNull.boolean("error");
-    t.string("message");
     t.string("username");
   },
 });
@@ -59,6 +57,5 @@ const RegisterResponse = objectType({
   name: "registerResponse",
   definition: t => {
     t.nonNull.string("message");
-    t.nonNull.boolean("error");
   },
 });

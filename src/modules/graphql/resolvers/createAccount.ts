@@ -5,33 +5,24 @@ export const createAccount: FieldResolver<
   "Mutation",
   "createAccount"
 > = async (_, { credentials }, { prisma }) => {
-  try {
-    const existingUser = await prisma.user.findUnique({ where: { email: credentials.email } });
+  const existingUser = await prisma.user.findUnique({ where: { email: credentials.email } });
 
-    if (existingUser !== null) {
-      throw new Error("User with this email already exists!");
-    }
-
-    const hashedPassword = await hash(credentials.password, 7);
-
-    await prisma.user.create({
-      data: {
-        username: credentials.username,
-        email: credentials.email,
-        passhash: hashedPassword,
-      }
-    });
-
-    return {
-      message:
-        "Thanks for registering!",
-      error: false,
-    };
-  } catch (err) {
-    const message = err as string || "Invalid Input";
-    return {
-      message,
-      error: true,
-    };
+  if (existingUser !== null) {
+    throw new Error("User with this email already exists!");
   }
+
+  const hashedPassword = await hash(credentials.password, 7);
+
+  await prisma.user.create({
+    data: {
+      username: credentials.username,
+      email: credentials.email,
+      passhash: hashedPassword,
+    }
+  });
+
+  return {
+    message:
+      "Thanks for registering!",
+  };
 };
