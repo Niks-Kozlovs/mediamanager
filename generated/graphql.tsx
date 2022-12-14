@@ -51,7 +51,26 @@ export type MutationLoginArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getMovieDetails?: Maybe<Movie>;
+  getMovieRecomendations?: Maybe<MovieResults>;
   getPopularMovies?: Maybe<MovieResults>;
+  searchMovies?: Maybe<MovieResults>;
+};
+
+
+export type QueryGetMovieDetailsArgs = {
+  movieId: Scalars['Int'];
+};
+
+
+export type QueryGetMovieRecomendationsArgs = {
+  movieId: Scalars['Int'];
+};
+
+
+export type QuerySearchMoviesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  query: Scalars['String'];
 };
 
 export type LoginCredentials = {

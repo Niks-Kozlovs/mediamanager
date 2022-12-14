@@ -2,21 +2,54 @@
 ### Do not make changes to this file directly
 
 
+type Cast {
+  adult: Boolean!
+  cast_id: Int!
+  character: String!
+  credit_id: String!
+  gender: Int
+  id: Int!
+  known_for_department: String!
+  name: String!
+  order: Int!
+  original_name: String!
+  popularity: Float!
+  profile_path: String
+}
+
+type Genre {
+  id: Int!
+  name: String!
+}
+
 type Movie {
   adult: Boolean!
   backdrop_path: String
+  budget: Int!
   genre_ids: [Int!]
+  genres: [Genre]!
+  homepage: String
   id: Int!
+  imdb_id: String
   original_language: String!
   original_title: String!
-  overview: String!
+  overview: String
   popularity: Float!
   poster_path: String
   release_date: String!
+  revenue: Int!
+  runtime: Int
+  status: String!
+  tagline: String
   title: String!
   video: Boolean!
   vote_average: Float!
   vote_count: Int!
+}
+
+type MovieCredits {
+  cast: [Cast!]
+  id: Int!
 }
 
 type Mutation {
@@ -24,8 +57,84 @@ type Mutation {
   login(credentials: loginCredentials!): loginResponse
 }
 
+"\n    This scalar should never make it into production. It is used as a placeholder for situations\n    where GraphQL Nexus encounters a missing type. We don't want to error immediately, otherwise\n    the TypeScript definitions will not be updated.\n  "
+scalar NEXUS__UNKNOWN__TYPE
+
 type Query {
+  getAiringTodayTvShows: TvShowResults
+  getAringSoonTvShows: TvShowResults
+  getMovieCredits(movieId: Int!): MovieCredits
+  getMovieDetails(movieId: Int!): NEXUS__UNKNOWN__TYPE
+  getMovieRecomendations(movieId: Int!): movieResults
+  getNowPlaying: movieResults
   getPopularMovies: movieResults
+  getPopularTvShows: TvShowResults
+  getSimilarMovies(movieId: Int!, page: Int): movieResults
+  getSimilarTvShows(tvShowId: Int!): TvShowResults
+  getTopRated: movieResults
+  getTopRatedTvShows: TvShowResults
+  getTvShowAggregateCredits(tvShowId: Int!): TvShowCredits
+  getTvShowCredits(tvShowId: Int!): TvShowCredits
+  getTvShowRecommendations(tvShowId: Int!): TvShowResults
+  getUpcoming: movieResults
+  searchMovies(page: Int, query: String!): movieResults
+}
+
+type TvShow {
+  backdrop_path: String
+  first_air_date: String!
+  genre_ids: [Int]!
+  id: Int!
+  name: String!
+  origin_country: [String]!
+  original_language: String!
+  original_name: String!
+  overview: String!
+  popularity: Float!
+  poster_path: String
+  vote_average: Float!
+  vote_count: Int!
+}
+
+type TvShowCast {
+  adult: Boolean!
+  character: String!
+  credit_id: String!
+  gender: Int
+  id: Int!
+  known_for_department: String!
+  name: String!
+  order: Int!
+  original_name: String!
+  popularity: Float!
+  profile_path: String
+}
+
+type TvShowCredits {
+  cast: [TvShowCast]!
+  crew: [TvShowCrew]!
+  id: Int!
+}
+
+type TvShowCrew {
+  adult: Boolean!
+  credit_id: String!
+  department: String!
+  gender: Int
+  id: Int!
+  job: String!
+  known_for_department: String!
+  name: String!
+  original_name: String!
+  popularity: Float!
+  profile_path: String
+}
+
+type TvShowResults {
+  page: Int!
+  results: [TvShow]!
+  total_pages: Int!
+  total_results: Int!
 }
 
 input loginCredentials {
