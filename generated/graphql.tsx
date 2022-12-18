@@ -122,7 +122,6 @@ export type Query = {
   getMovieCredits?: Maybe<MovieCredits>;
   getMovieDetails?: Maybe<ExtendedMovieData>;
   getMovieRecomendations?: Maybe<MovieResults>;
-  getMovieWatchlist?: Maybe<Array<Maybe<SimpleMovie>>>;
   getNowPlaying?: Maybe<MovieResults>;
   getPopularMovies?: Maybe<MovieResults>;
   getPopularTvShows?: Maybe<TvShowResults>;
@@ -182,17 +181,6 @@ export type QueryGetTvShowRecommendationsArgs = {
 export type QuerySearchMoviesArgs = {
   page?: InputMaybe<Scalars['Int']>;
   query: Scalars['String'];
-};
-
-export type SimpleMovie = {
-  __typename?: 'SimpleMovie';
-  backdrop_path?: Maybe<Scalars['String']>;
-  movie_id: Scalars['String'];
-  original_title: Scalars['String'];
-  overview?: Maybe<Scalars['String']>;
-  poster_path?: Maybe<Scalars['String']>;
-  release_date: Scalars['String'];
-  title: Scalars['String'];
 };
 
 export type TvShow = {
