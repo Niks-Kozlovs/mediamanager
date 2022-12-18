@@ -11,10 +11,50 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique @db.VarChar(255)
-  username String @unique @db.VarChar(255)
-  passhash String @db.VarChar(255)
+  id         Int               @id @default(autoincrement())
+  email      String            @unique @db.VarChar(255)
+  username   String            @unique @db.VarChar(255)
+  passhash   String            @db.VarChar(255)
+  watchlist  MovieWatchList[]
+  favourites MovieFavourites[]
+  watchlater MovieWatched[]
 
   @@map("users")
+}
+
+model MovieDetails {
+  movie_id        String            @id
+  poster_path     String?
+  overview        String?
+  release_date    String?
+  original_title  String
+  title           String
+  backdrop_path   String?
+}
+
+model MovieWatchList {
+  id       Int          @id @default(autoincrement())
+  user_id  Int
+  movie_id String
+  user     User         @relation(fields: [user_id], references: [id])
+
+  @@map("movie_watch_list")
+}
+
+model MovieFavourites {
+  id       Int          @id @default(autoincrement())
+  user_id  Int
+  movie_id String
+  user     User         @relation(fields: [user_id], references: [id])
+
+  @@map("movie_favourites")
+}
+
+model MovieWatched {
+  id       Int          @id @default(autoincrement())
+  user_id  Int
+  movie_id String
+  user     User         @relation(fields: [user_id], references: [id])
+
+  @@map("movie_watched")
 }

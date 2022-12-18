@@ -51,11 +51,7 @@ export interface NexusGenObjects {
     popularity: number; // Float!
     profile_path?: string | null; // String
   }
-  Genre: { // root type
-    id: number; // Int!
-    name: string; // String!
-  }
-  Movie: { // root type
+  ExtendedMovieData: { // root type
     adult: boolean; // Boolean!
     backdrop_path?: string | null; // String
     budget: number; // Int!
@@ -74,6 +70,26 @@ export interface NexusGenObjects {
     runtime?: number | null; // Int
     status: string; // String!
     tagline?: string | null; // String
+    title: string; // String!
+    video: boolean; // Boolean!
+    vote_average: number; // Float!
+    vote_count: number; // Int!
+  }
+  Genre: { // root type
+    id: number; // Int!
+    name: string; // String!
+  }
+  Movie: { // root type
+    adult: boolean; // Boolean!
+    backdrop_path?: string | null; // String
+    genre_ids?: number[] | null; // [Int!]
+    id: number; // Int!
+    original_language: string; // String!
+    original_title: string; // String!
+    overview?: string | null; // String
+    popularity: number; // Float!
+    poster_path?: string | null; // String
+    release_date: string; // String!
     title: string; // String!
     video: boolean; // Boolean!
     vote_average: number; // Float!
@@ -176,11 +192,7 @@ export interface NexusGenFieldTypes {
     popularity: number; // Float!
     profile_path: string | null; // String
   }
-  Genre: { // field return type
-    id: number; // Int!
-    name: string; // String!
-  }
-  Movie: { // field return type
+  ExtendedMovieData: { // field return type
     adult: boolean; // Boolean!
     backdrop_path: string | null; // String
     budget: number; // Int!
@@ -204,19 +216,41 @@ export interface NexusGenFieldTypes {
     vote_average: number; // Float!
     vote_count: number; // Int!
   }
+  Genre: { // field return type
+    id: number; // Int!
+    name: string; // String!
+  }
+  Movie: { // field return type
+    adult: boolean; // Boolean!
+    backdrop_path: string | null; // String
+    genre_ids: number[] | null; // [Int!]
+    id: number; // Int!
+    original_language: string; // String!
+    original_title: string; // String!
+    overview: string | null; // String
+    popularity: number; // Float!
+    poster_path: string | null; // String
+    release_date: string; // String!
+    title: string; // String!
+    video: boolean; // Boolean!
+    vote_average: number; // Float!
+    vote_count: number; // Int!
+  }
   MovieCredits: { // field return type
     cast: NexusGenRootTypes['Cast'][] | null; // [Cast!]
     id: number; // Int!
   }
   Mutation: { // field return type
+    addMovieToWatchlist: boolean | null; // Boolean
     createAccount: NexusGenRootTypes['registerResponse'] | null; // registerResponse
     login: NexusGenRootTypes['loginResponse'] | null; // loginResponse
+    removeMovieFromWatchlist: boolean | null; // Boolean
   }
   Query: { // field return type
     getAiringTodayTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getAringSoonTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getMovieCredits: NexusGenRootTypes['MovieCredits'] | null; // MovieCredits
-    getMovieDetails: NexusGenScalars['NEXUS__UNKNOWN__TYPE'] | null; // NEXUS__UNKNOWN__TYPE
+    getMovieDetails: NexusGenRootTypes['ExtendedMovieData'] | null; // ExtendedMovieData
     getMovieRecomendations: NexusGenRootTypes['movieResults'] | null; // movieResults
     getNowPlaying: NexusGenRootTypes['movieResults'] | null; // movieResults
     getPopularMovies: NexusGenRootTypes['movieResults'] | null; // movieResults
@@ -312,11 +346,7 @@ export interface NexusGenFieldTypeNames {
     popularity: 'Float'
     profile_path: 'String'
   }
-  Genre: { // field return type name
-    id: 'Int'
-    name: 'String'
-  }
-  Movie: { // field return type name
+  ExtendedMovieData: { // field return type name
     adult: 'Boolean'
     backdrop_path: 'String'
     budget: 'Int'
@@ -340,19 +370,41 @@ export interface NexusGenFieldTypeNames {
     vote_average: 'Float'
     vote_count: 'Int'
   }
+  Genre: { // field return type name
+    id: 'Int'
+    name: 'String'
+  }
+  Movie: { // field return type name
+    adult: 'Boolean'
+    backdrop_path: 'String'
+    genre_ids: 'Int'
+    id: 'Int'
+    original_language: 'String'
+    original_title: 'String'
+    overview: 'String'
+    popularity: 'Float'
+    poster_path: 'String'
+    release_date: 'String'
+    title: 'String'
+    video: 'Boolean'
+    vote_average: 'Float'
+    vote_count: 'Int'
+  }
   MovieCredits: { // field return type name
     cast: 'Cast'
     id: 'Int'
   }
   Mutation: { // field return type name
+    addMovieToWatchlist: 'Boolean'
     createAccount: 'registerResponse'
     login: 'loginResponse'
+    removeMovieFromWatchlist: 'Boolean'
   }
   Query: { // field return type name
     getAiringTodayTvShows: 'TvShowResults'
     getAringSoonTvShows: 'TvShowResults'
     getMovieCredits: 'MovieCredits'
-    getMovieDetails: 'NEXUS__UNKNOWN__TYPE'
+    getMovieDetails: 'ExtendedMovieData'
     getMovieRecomendations: 'movieResults'
     getNowPlaying: 'movieResults'
     getPopularMovies: 'movieResults'
@@ -435,11 +487,17 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    addMovieToWatchlist: { // args
+      movieId: string; // String!
+    }
     createAccount: { // args
       credentials: NexusGenInputs['registerCredentials']; // registerCredentials!
     }
     login: { // args
       credentials: NexusGenInputs['loginCredentials']; // loginCredentials!
+    }
+    removeMovieFromWatchlist: { // args
+      movieId: string; // String!
     }
   }
   Query: {

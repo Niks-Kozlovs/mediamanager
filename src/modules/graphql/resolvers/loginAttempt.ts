@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
-import { CookieSerializeOptions } from "next/dist/server/web/types";
+import { CookieSerializeOptions } from "next/dist/server/web/spec-extension/cookies/types";
 import { FieldResolver } from "nexus";
 import nookies from "nookies";
-import { createToken } from "../../utils/jwt";
+import { Context } from "../../../types/Context";
+import { createToken, verifyToken } from "../../utils/jwt";
 
 export const loginAttempt: FieldResolver<"Mutation", "login"> = async (_, { credentials }, { prisma, res }) => {
     const user = await getExistingUser(credentials, prisma);
@@ -23,6 +24,30 @@ export const loginAttempt: FieldResolver<"Mutation", "login"> = async (_, { cred
         username: user.username,
     };
 };
+
+export const getUserFromCookie = async ({prisma, req}: Context) => {
+    const decodedToken = await getPayloadFromCookie(req);
+    const user = await prisma.user.findFirst({
+        where: {
+            username: decodedToken.username,
+        },
+        select: {
+            username: true,
+            id: true,
+        }
+    });
+
+    if (!user) {
+        throw new Error("No user found");
+    }
+
+    return user;
+};
+
+export const getUserIdFromCookie = async (ctx: Context) => {
+    return (await getUserFromCookie(ctx)).id;
+};
+
 
 const getExistingUser = async (
     credentials: {
@@ -54,3 +79,12 @@ const getExistingUser = async (
     return user;
 };
 
+const getPayloadFromCookie = async (req: any) => {
+    const cookies = nookies.get({ req });
+    const token = cookies.sid || null;
+    if (!token) {
+        throw new Error("No token found");
+    }
+    const decodedToken = await verifyToken(token);
+    return decodedToken;
+};
