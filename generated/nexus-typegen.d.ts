@@ -99,8 +99,23 @@ export interface NexusGenObjects {
     cast?: NexusGenRootTypes['Cast'][] | null; // [Cast!]
     id: number; // Int!
   }
+  MovieResults: { // root type
+    page: string; // String!
+    results?: NexusGenRootTypes['Movie'][] | null; // [Movie!]
+    total_pages: string; // String!
+    total_results: string; // String!
+  }
   Mutation: {};
   Query: {};
+  SimpleMovie: { // root type
+    backdrop_path?: string | null; // String
+    movie_id: string; // String!
+    original_title: string; // String!
+    overview?: string | null; // String
+    poster_path?: string | null; // String
+    release_date: string; // String!
+    title: string; // String!
+  }
   TvShow: { // root type
     backdrop_path?: string | null; // String
     first_air_date: string; // String!
@@ -155,12 +170,6 @@ export interface NexusGenObjects {
   }
   loginResponse: { // root type
     username?: string | null; // String
-  }
-  movieResults: { // root type
-    page: string; // String!
-    results?: NexusGenRootTypes['Movie'][] | null; // [Movie!]
-    total_pages: string; // String!
-    total_results: string; // String!
   }
   registerResponse: { // root type
     message: string; // String!
@@ -240,6 +249,12 @@ export interface NexusGenFieldTypes {
     cast: NexusGenRootTypes['Cast'][] | null; // [Cast!]
     id: number; // Int!
   }
+  MovieResults: { // field return type
+    page: string; // String!
+    results: NexusGenRootTypes['Movie'][] | null; // [Movie!]
+    total_pages: string; // String!
+    total_results: string; // String!
+  }
   Mutation: { // field return type
     addMovieToWatchlist: boolean | null; // Boolean
     createAccount: NexusGenRootTypes['registerResponse'] | null; // registerResponse
@@ -251,19 +266,29 @@ export interface NexusGenFieldTypes {
     getAringSoonTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getMovieCredits: NexusGenRootTypes['MovieCredits'] | null; // MovieCredits
     getMovieDetails: NexusGenRootTypes['ExtendedMovieData'] | null; // ExtendedMovieData
-    getMovieRecomendations: NexusGenRootTypes['movieResults'] | null; // movieResults
-    getNowPlaying: NexusGenRootTypes['movieResults'] | null; // movieResults
-    getPopularMovies: NexusGenRootTypes['movieResults'] | null; // movieResults
+    getMovieRecomendations: NexusGenRootTypes['MovieResults'] | null; // MovieResults
+    getMovieWatchlist: Array<NexusGenRootTypes['SimpleMovie'] | null> | null; // [SimpleMovie]
+    getNowPlaying: NexusGenRootTypes['MovieResults'] | null; // MovieResults
+    getPopularMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getPopularTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
-    getSimilarMovies: NexusGenRootTypes['movieResults'] | null; // movieResults
+    getSimilarMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getSimilarTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
-    getTopRated: NexusGenRootTypes['movieResults'] | null; // movieResults
+    getTopRated: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getTopRatedTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getTvShowAggregateCredits: NexusGenRootTypes['TvShowCredits'] | null; // TvShowCredits
     getTvShowCredits: NexusGenRootTypes['TvShowCredits'] | null; // TvShowCredits
     getTvShowRecommendations: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
-    getUpcoming: NexusGenRootTypes['movieResults'] | null; // movieResults
-    searchMovies: NexusGenRootTypes['movieResults'] | null; // movieResults
+    getUpcoming: NexusGenRootTypes['MovieResults'] | null; // MovieResults
+    searchMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
+  }
+  SimpleMovie: { // field return type
+    backdrop_path: string | null; // String
+    movie_id: string; // String!
+    original_title: string; // String!
+    overview: string | null; // String
+    poster_path: string | null; // String
+    release_date: string; // String!
+    title: string; // String!
   }
   TvShow: { // field return type
     backdrop_path: string | null; // String
@@ -319,12 +344,6 @@ export interface NexusGenFieldTypes {
   }
   loginResponse: { // field return type
     username: string | null; // String
-  }
-  movieResults: { // field return type
-    page: string; // String!
-    results: NexusGenRootTypes['Movie'][] | null; // [Movie!]
-    total_pages: string; // String!
-    total_results: string; // String!
   }
   registerResponse: { // field return type
     message: string; // String!
@@ -394,6 +413,12 @@ export interface NexusGenFieldTypeNames {
     cast: 'Cast'
     id: 'Int'
   }
+  MovieResults: { // field return type name
+    page: 'String'
+    results: 'Movie'
+    total_pages: 'String'
+    total_results: 'String'
+  }
   Mutation: { // field return type name
     addMovieToWatchlist: 'Boolean'
     createAccount: 'registerResponse'
@@ -405,19 +430,29 @@ export interface NexusGenFieldTypeNames {
     getAringSoonTvShows: 'TvShowResults'
     getMovieCredits: 'MovieCredits'
     getMovieDetails: 'ExtendedMovieData'
-    getMovieRecomendations: 'movieResults'
-    getNowPlaying: 'movieResults'
-    getPopularMovies: 'movieResults'
+    getMovieRecomendations: 'MovieResults'
+    getMovieWatchlist: 'SimpleMovie'
+    getNowPlaying: 'MovieResults'
+    getPopularMovies: 'MovieResults'
     getPopularTvShows: 'TvShowResults'
-    getSimilarMovies: 'movieResults'
+    getSimilarMovies: 'MovieResults'
     getSimilarTvShows: 'TvShowResults'
-    getTopRated: 'movieResults'
+    getTopRated: 'MovieResults'
     getTopRatedTvShows: 'TvShowResults'
     getTvShowAggregateCredits: 'TvShowCredits'
     getTvShowCredits: 'TvShowCredits'
     getTvShowRecommendations: 'TvShowResults'
-    getUpcoming: 'movieResults'
-    searchMovies: 'movieResults'
+    getUpcoming: 'MovieResults'
+    searchMovies: 'MovieResults'
+  }
+  SimpleMovie: { // field return type name
+    backdrop_path: 'String'
+    movie_id: 'String'
+    original_title: 'String'
+    overview: 'String'
+    poster_path: 'String'
+    release_date: 'String'
+    title: 'String'
   }
   TvShow: { // field return type name
     backdrop_path: 'String'
@@ -473,12 +508,6 @@ export interface NexusGenFieldTypeNames {
   }
   loginResponse: { // field return type name
     username: 'String'
-  }
-  movieResults: { // field return type name
-    page: 'String'
-    results: 'Movie'
-    total_pages: 'String'
-    total_results: 'String'
   }
   registerResponse: { // field return type name
     message: 'String'

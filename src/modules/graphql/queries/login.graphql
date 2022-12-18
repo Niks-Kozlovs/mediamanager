@@ -1,11 +1,11 @@
-# mutation RegisterAccount($credentials: registerCredentials!) {
-#   createAccount(credentials: $credentials) {
-#     message
-#   }
-# }
+mutation RegisterAccount($credentials: registerCredentials!) {
+  createAccount(credentials: $credentials) {
+    message
+  }
+}
 
-# mutation Login($credentials: loginCredentials!) {
-#   login(credentials: $credentials) {
-#     username
-#   }
-# }
+mutation Login($credentials: loginCredentials!) {
+  login(credentials: $credentials) {
+    username
+  }
+}

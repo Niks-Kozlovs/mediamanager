@@ -69,6 +69,13 @@ type MovieCredits {
   id: Int!
 }
 
+type MovieResults {
+  page: String!
+  results: [Movie!]
+  total_pages: String!
+  total_results: String!
+}
+
 type Mutation {
   addMovieToWatchlist(movieId: String!): Boolean
   createAccount(credentials: registerCredentials!): registerResponse
@@ -81,19 +88,30 @@ type Query {
   getAringSoonTvShows: TvShowResults
   getMovieCredits(movieId: Int!): MovieCredits
   getMovieDetails(movieId: Int!): ExtendedMovieData
-  getMovieRecomendations(movieId: Int!): movieResults
-  getNowPlaying: movieResults
-  getPopularMovies: movieResults
+  getMovieRecomendations(movieId: Int!): MovieResults
+  getMovieWatchlist: [SimpleMovie]
+  getNowPlaying: MovieResults
+  getPopularMovies: MovieResults
   getPopularTvShows: TvShowResults
-  getSimilarMovies(movieId: Int!, page: Int): movieResults
+  getSimilarMovies(movieId: Int!, page: Int): MovieResults
   getSimilarTvShows(tvShowId: Int!): TvShowResults
-  getTopRated: movieResults
+  getTopRated: MovieResults
   getTopRatedTvShows: TvShowResults
   getTvShowAggregateCredits(tvShowId: Int!): TvShowCredits
   getTvShowCredits(tvShowId: Int!): TvShowCredits
   getTvShowRecommendations(tvShowId: Int!): TvShowResults
-  getUpcoming: movieResults
-  searchMovies(page: Int, query: String!): movieResults
+  getUpcoming: MovieResults
+  searchMovies(page: Int, query: String!): MovieResults
+}
+
+type SimpleMovie {
+  backdrop_path: String
+  movie_id: String!
+  original_title: String!
+  overview: String
+  poster_path: String
+  release_date: String!
+  title: String!
 }
 
 type TvShow {
@@ -160,13 +178,6 @@ input loginCredentials {
 
 type loginResponse {
   username: String
-}
-
-type movieResults {
-  page: String!
-  results: [Movie!]
-  total_pages: String!
-  total_results: String!
 }
 
 input registerCredentials {

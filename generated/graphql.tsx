@@ -87,6 +87,14 @@ export type MovieCredits = {
   id: Scalars['Int'];
 };
 
+export type MovieResults = {
+  __typename?: 'MovieResults';
+  page: Scalars['String'];
+  results?: Maybe<Array<Movie>>;
+  total_pages: Scalars['String'];
+  total_results: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addMovieToWatchlist?: Maybe<Scalars['Boolean']>;
@@ -122,6 +130,7 @@ export type Query = {
   getMovieCredits?: Maybe<MovieCredits>;
   getMovieDetails?: Maybe<ExtendedMovieData>;
   getMovieRecomendations?: Maybe<MovieResults>;
+  getMovieWatchlist?: Maybe<SimpleMovie>;
   getNowPlaying?: Maybe<MovieResults>;
   getPopularMovies?: Maybe<MovieResults>;
   getPopularTvShows?: Maybe<TvShowResults>;
@@ -181,6 +190,17 @@ export type QueryGetTvShowRecommendationsArgs = {
 export type QuerySearchMoviesArgs = {
   page?: InputMaybe<Scalars['Int']>;
   query: Scalars['String'];
+};
+
+export type SimpleMovie = {
+  __typename?: 'SimpleMovie';
+  backdrop_path?: Maybe<Scalars['String']>;
+  movie_id: Scalars['String'];
+  original_title: Scalars['String'];
+  overview?: Maybe<Scalars['String']>;
+  poster_path?: Maybe<Scalars['String']>;
+  release_date: Scalars['String'];
+  title: Scalars['String'];
 };
 
 export type TvShow = {
@@ -253,14 +273,6 @@ export type LoginCredentials = {
 export type LoginResponse = {
   __typename?: 'loginResponse';
   username?: Maybe<Scalars['String']>;
-};
-
-export type MovieResults = {
-  __typename?: 'movieResults';
-  page: Scalars['String'];
-  results?: Maybe<Array<Movie>>;
-  total_pages: Scalars['String'];
-  total_results: Scalars['String'];
 };
 
 export type RegisterCredentials = {

@@ -1,193 +1,7 @@
-import { extendType, FieldResolver, intArg, list, nonNull, objectType, stringArg } from "nexus"
+import { FieldResolver, intArg, list, mutationField, nonNull, objectType, queryField, stringArg } from "nexus"
 import { makeRequest } from "../../utils/makeRequest";
 import { getUserFromCookie } from "../resolvers/loginAttempt";
 // import { getMovieWatchList } from "../resolvers/moviesWatchList";
-
-export const getPopularMovies = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getPopularMovies", {
-            type: movieResults,
-            resolve: async () => await makeRequest("movie/popular"),
-        });
-    },
-});
-
-export const getMovieRecomendations = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getMovieRecomendations", {
-            type: movieResults,
-            args: { movieId: nonNull(intArg())},
-            resolve: async (_, { movieId }) => await makeRequest(`movie/${movieId}/recommendations`),
-        });
-    },
-});
-
-export const getSimilarMovies = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getSimilarMovies", {
-            type: movieResults,
-            args: { movieId: nonNull(intArg()), page: intArg()},
-            resolve: async (_, { movieId, page }) => await makeRequest(`movie/${movieId}/similar`, { page: page || 1 }),
-        });
-    },
-});
-
-export const getNowPlaying = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getNowPlaying", {
-            type: movieResults,
-            resolve: async () => await makeRequest("movie/now_playing"),
-        });
-    },
-});
-
-export const getTopRated = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getTopRated", {
-            type: movieResults,
-            resolve: async () => await makeRequest("movie/top_rated"),
-        });
-    },
-});
-
-export const getUpcoming = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getUpcoming", {
-            type: movieResults,
-            resolve: async () => await makeRequest("movie/upcoming"),
-        });
-    },
-});
-
-export const getMovieDetails = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getMovieDetails", {
-            type: ExtendedMovieData,
-            args: { movieId: nonNull(intArg())},
-            resolve: async (_, { movieId }) => await makeRequest(`movie/${movieId}`),
-        })
-    },
-});
-
-export const searchMovies = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("searchMovies", {
-            type: movieResults,
-            args: { query: nonNull(stringArg()), page: intArg() },
-            resolve: async (_, { query, page }) => {
-                const encodedQuery = encodeURIComponent(query);
-                return await makeRequest('search/movie', { query: encodedQuery, page: page || 1 });
-            },
-        });
-    },
-});
-
-export const getMovieCredits = extendType({
-    type: "Query",
-    definition: (t) => {
-        t.field("getMovieCredits", {
-            type: MovieCredits,
-            args: { movieId: nonNull(intArg())},
-            resolve: async (_, { movieId }) => await makeRequest(`movie/${movieId}/credits`),
-        });
-    },
-});
-
-export const addMovieToWatchlist = extendType({
-    type: "Mutation",
-    definition: (t) => {
-        t.field("addMovieToWatchlist", {
-            type: "Boolean",
-            args: { movieId: nonNull(stringArg())},
-            resolve: async (_, { movieId }, ctx) => {
-                const user = await getUserFromCookie(ctx);
-                const { prisma } = ctx;
-
-                const movieDetails = await prisma.movieDetails.findFirst({
-                    where: {
-                        movie_id: movieId,
-                    },
-                });
-
-                if (!movieDetails) {
-                    const movieDetails = await makeRequest(`movie/${movieId}`);
-                    await prisma.movieDetails.create({
-                        data: {...movieDetails},
-                    });
-                }
-
-                await prisma.movieWatchList.create({
-                    data: {
-                        user_id: user.id,
-                        movie_id: movieId,
-                    },
-                });
-
-                return true;
-            },
-        });
-    },
-});
-
-export const removeMovieFromWatchlist = extendType({
-    type: "Mutation",
-    definition: (t) => {
-        t.field("removeMovieFromWatchlist", {
-            type: "Boolean",
-            args: { movieId: nonNull(stringArg())},
-            resolve: async (_, { movieId }, ctx) => {
-                const user = await getUserFromCookie(ctx);
-                const { prisma } = ctx;
-                const watchlistMovie = await prisma.movieWatchList.findFirst({
-                    where: {
-                        user_id: user.id,
-                        movie_id: movieId,
-                    },
-                });
-
-                if (!watchlistMovie) {
-                    return false;
-                }
-
-                await prisma.movieWatchList.delete({
-                    where: {
-                        id: watchlistMovie.id,
-                    },
-                });
-
-                return true;
-            },
-        });
-    },
-});
-
-// export const getMovieWatchlist = extendType({
-//     type: "Query",
-//     definition: (t) => {
-//         t.field("getMovieWatchlist", {
-//             type: list(SimpleMovie),
-//             resolve: getMovieWatchList,
-//         });
-//     },
-// });
-
-const MovieCredits = objectType({
-    name: "MovieCredits",
-    definition: (t) => {
-        t.nonNull.int("id");
-        t.list.nonNull.field("cast", {
-            type: Cast
-        });
-    },
-});
 
 const Cast = objectType({
     name: "Cast",
@@ -204,20 +18,6 @@ const Cast = objectType({
         t.nonNull.string("character");
         t.nonNull.string("credit_id");
         t.nonNull.int("order");
-    },
-});
-
-
-
-const movieResults = objectType({
-    name: "movieResults",
-    definition: (t) => {
-        t.nonNull.string("page");
-        t.nonNull.string("total_results");
-        t.nonNull.string("total_pages");
-        t.list.nonNull.field("results", {
-            type: Movie
-        });
     },
 });
 
@@ -265,6 +65,18 @@ const Movie = objectType({
     },
 });
 
+const MovieResults = objectType({
+    name: "MovieResults",
+    definition: (t) => {
+        t.nonNull.string("page");
+        t.nonNull.string("total_results");
+        t.nonNull.string("total_pages");
+        t.list.nonNull.field("results", {
+            type: Movie
+        });
+    },
+});
+
 const ExtendedMovieData = objectType({
     name: "ExtendedMovieData",
     definition: (t) => {
@@ -301,3 +113,156 @@ const ExtendedMovieData = objectType({
     },
 });
 
+const MovieCredits = objectType({
+    name: "MovieCredits",
+    definition: (t) => {
+        t.nonNull.int("id");
+        t.list.nonNull.field("cast", {
+            type: Cast
+        });
+    },
+});
+
+export const getPopularMovies = queryField("getPopularMovies", {
+    type: MovieResults,
+    resolve: async () => await makeRequest("movie/popular"),
+});
+
+export const getMovieRecomendations = queryField("getMovieRecomendations", {
+    type: MovieResults,
+    args: { movieId: nonNull(intArg())},
+    resolve: async (_, { movieId }) => await makeRequest(`movie/${movieId}/recommendations`),
+});
+
+export const getSimilarMovies = queryField("getSimilarMovies", {
+    type: MovieResults,
+    args: { movieId: nonNull(intArg()), page: intArg()},
+    resolve: async (_, { movieId, page }) => await makeRequest(`movie/${movieId}/similar`, { page: page || 1 }),
+});
+
+export const getNowPlaying = queryField("getNowPlaying", {
+    type: MovieResults,
+    resolve: async () => await makeRequest("movie/now_playing"),
+});
+
+export const getTopRated = queryField("getTopRated", {
+    type: MovieResults,
+    resolve: async () => await makeRequest("movie/top_rated"),
+});
+
+export const getUpcoming = queryField("getUpcoming", {
+    type: MovieResults,
+    resolve: async () => await makeRequest("movie/upcoming"),
+});
+
+export const getMovieDetails = queryField("getMovieDetails", {
+    type: ExtendedMovieData,
+    args: { movieId: nonNull(intArg())},
+    resolve: async (_, { movieId }) => await makeRequest(`movie/${movieId}`),
+});
+
+export const searchMovies = queryField("searchMovies", {
+    type: MovieResults,
+    args: { query: nonNull(stringArg()), page: intArg() },
+    resolve: async (_, { query, page }) => {
+        const encodedQuery = encodeURIComponent(query);
+        return await makeRequest('search/movie', { query: encodedQuery, page: page || 1 });
+    },
+});
+
+export const getMovieCredits = queryField("getMovieCredits", {
+    type: MovieCredits,
+    args: { movieId: nonNull(intArg())},
+    resolve: async (_, { movieId }) => await makeRequest(`movie/${movieId}/credits`),
+});
+
+export const addMovieToWatchlist = mutationField("addMovieToWatchlist", {
+    type: "Boolean",
+    args: { movieId: nonNull(stringArg())},
+    resolve: async (_, { movieId }, ctx) => {
+        const user = await getUserFromCookie(ctx);
+        const { prisma } = ctx;
+
+        const movieDetails = await prisma.movieDetails.findFirst({
+            where: {
+                movie_id: movieId,
+            },
+            select: {
+                movie_id: true,
+            }
+        });
+
+        if (!movieDetails) {
+            const movieDetails = await makeRequest(`movie/${movieId}`);
+            await prisma.movieDetails.create({
+                data: {
+                    movie_id: movieDetails.id.toString(),
+                    poster_path: movieDetails.poster_path,
+                    overview: movieDetails.overview,
+                    release_date: movieDetails.release_date,
+                    original_title: movieDetails.original_title,
+                    title: movieDetails.title,
+                    backdrop_path: movieDetails.backdrop_path,
+                },
+            });
+        }
+
+        await prisma.movieWatchList.create({
+            data: {
+                user_id: user.id,
+                movie_id: movieId,
+            },
+        });
+
+        return true;
+    },
+});
+
+export const removeMovieFromWatchlist = mutationField("removeMovieFromWatchlist", {
+    type: "Boolean",
+    args: { movieId: nonNull(stringArg())},
+    resolve: async (_, { movieId }, ctx) => {
+        const user = await getUserFromCookie(ctx);
+        const { prisma } = ctx;
+        const watchlistMovie = await prisma.movieWatchList.findFirst({
+            where: {
+                user_id: user.id,
+                movie_id: movieId,
+            },
+        });
+
+        if (!watchlistMovie) {
+            return false;
+        }
+
+        await prisma.movieWatchList.delete({
+            where: {
+                id: watchlistMovie.id,
+            },
+        });
+
+        return true;
+    },
+});
+
+export const getMovieWatchlist = queryField("getMovieWatchlist", {
+    type: list(SimpleMovie),
+    //@ts-ignore
+    resolve: async (_, __, ctx) => {
+        const user = await getUserFromCookie(ctx);
+        const { prisma } = ctx;
+
+        const watchlist = await prisma.movieWatchList.findMany({
+            where: {
+                user_id: user.id,
+            },
+            include: {
+                movieDetails: true,
+            }
+        });
+
+        const list = watchlist.map(({ movieDetails: md }) => md);
+
+        return list;
+    },
+});
