@@ -1,14 +1,13 @@
 import { FieldResolver } from "nexus";
-import { makeRequest } from "../../utils/makeRequest";
-import { getUserFromCookie } from "./loginAttempt";
 import { addMovieIfNotExist } from "../../utils/addMovieIfNotExist";
+import { getUserFromCookie } from "./loginAttempt";
 
-export const addMovieToWatchlistResolver: FieldResolver<"Mutation", "addMovieToWatchlist"> = async (_, { movieId }, ctx) => {
+export const addMovieToFavouritesResolver: FieldResolver<"Mutation", "addMovieToFavourites"> = async (_, { movieId }, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;
     await addMovieIfNotExist(movieId, ctx);
 
-    await prisma.movieWatchList.create({
+    await prisma.movieFavourites.create({
         data: {
             user_id: user.id,
             movie_id: movieId,
@@ -18,34 +17,34 @@ export const addMovieToWatchlistResolver: FieldResolver<"Mutation", "addMovieToW
     return true;
 }
 
-export const removeMovieFromWatchlistResolver: FieldResolver<"Mutation", "removeMovieFromWatchlist"> = async (_, { movieId }, ctx) => {
+export const removeMovieFromFavouritesResolver: FieldResolver<"Mutation", "removeMovieFromFavourites"> = async (_, { movieId }, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;
-    const watchlistMovie = await prisma.movieWatchList.findFirst({
+    const favouriteMovie = await prisma.movieFavourites.findFirst({
         where: {
             user_id: user.id,
             movie_id: movieId,
         },
     });
 
-    if (!watchlistMovie) {
+    if (!favouriteMovie) {
         return false;
     }
 
-    await prisma.movieWatchList.delete({
+    await prisma.movieFavourites.delete({
         where: {
-            id: watchlistMovie.id,
+            id: favouriteMovie.id,
         },
     });
 
     return true;
 }
 
-export const getMovieWatchListResolver: FieldResolver<"Query", "getMovieWatchlist"> = async (_, __, ctx) => {
+export const getMovieFavouritesResolver: FieldResolver<"Query", "getMovieFavourites"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;
 
-    const watchlist = await prisma.movieWatchList.findMany({
+    const favourites = await prisma.movieFavourites.findMany({
         where: {
             user_id: user.id,
         },
@@ -54,7 +53,7 @@ export const getMovieWatchListResolver: FieldResolver<"Query", "getMovieWatchlis
         }
     });
 
-    const list = watchlist.map(({ movieDetails: md }) => md);
+    const list = favourites.map(({ movieDetails: md }) => md);
 
     return list;
 }

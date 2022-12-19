@@ -1,6 +1,9 @@
 import { FieldResolver, intArg, list, mutationField, nonNull, objectType, queryField, stringArg } from "nexus"
 import { makeRequest } from "../../utils/makeRequest";
 import { getUserFromCookie } from "../resolvers/loginAttempt";
+import { addMovieToWatchlistResolver, getMovieWatchListResolver, removeMovieFromWatchlistResolver } from "../resolvers/moviesWatchList";
+import { addMovieToFavouritesResolver, getMovieFavouritesResolver, removeMovieFromFavouritesResolver } from "../resolvers/movieFavourites";
+import { addMovieToWatchedResolver, getWatchedMoviesResolver, removeMovieFromWatchedResolver } from "../resolvers/watchedMovies";
 // import { getMovieWatchList } from "../resolvers/moviesWatchList";
 
 const Cast = objectType({
@@ -179,90 +182,51 @@ export const getMovieCredits = queryField("getMovieCredits", {
 export const addMovieToWatchlist = mutationField("addMovieToWatchlist", {
     type: "Boolean",
     args: { movieId: nonNull(stringArg())},
-    resolve: async (_, { movieId }, ctx) => {
-        const user = await getUserFromCookie(ctx);
-        const { prisma } = ctx;
-
-        const movieDetails = await prisma.movieDetails.findFirst({
-            where: {
-                movie_id: movieId,
-            },
-            select: {
-                movie_id: true,
-            }
-        });
-
-        if (!movieDetails) {
-            const movieDetails = await makeRequest(`movie/${movieId}`);
-            await prisma.movieDetails.create({
-                data: {
-                    movie_id: movieDetails.id.toString(),
-                    poster_path: movieDetails.poster_path,
-                    overview: movieDetails.overview,
-                    release_date: movieDetails.release_date,
-                    original_title: movieDetails.original_title,
-                    title: movieDetails.title,
-                    backdrop_path: movieDetails.backdrop_path,
-                },
-            });
-        }
-
-        await prisma.movieWatchList.create({
-            data: {
-                user_id: user.id,
-                movie_id: movieId,
-            },
-        });
-
-        return true;
-    },
+    resolve: addMovieToWatchlistResolver,
 });
 
 export const removeMovieFromWatchlist = mutationField("removeMovieFromWatchlist", {
     type: "Boolean",
     args: { movieId: nonNull(stringArg())},
-    resolve: async (_, { movieId }, ctx) => {
-        const user = await getUserFromCookie(ctx);
-        const { prisma } = ctx;
-        const watchlistMovie = await prisma.movieWatchList.findFirst({
-            where: {
-                user_id: user.id,
-                movie_id: movieId,
-            },
-        });
-
-        if (!watchlistMovie) {
-            return false;
-        }
-
-        await prisma.movieWatchList.delete({
-            where: {
-                id: watchlistMovie.id,
-            },
-        });
-
-        return true;
-    },
+    resolve: removeMovieFromWatchlistResolver,
 });
 
 export const getMovieWatchlist = queryField("getMovieWatchlist", {
     type: list(SimpleMovie),
-    //@ts-ignore
-    resolve: async (_, __, ctx) => {
-        const user = await getUserFromCookie(ctx);
-        const { prisma } = ctx;
-
-        const watchlist = await prisma.movieWatchList.findMany({
-            where: {
-                user_id: user.id,
-            },
-            include: {
-                movieDetails: true,
-            }
-        });
-
-        const list = watchlist.map(({ movieDetails: md }) => md);
-
-        return list;
-    },
+    resolve: getMovieWatchListResolver,
 });
+
+export const addMovieToFavourites = mutationField("addMovieToFavourites", {
+    type: "Boolean",
+    args: { movieId: nonNull(stringArg())},
+    resolve: addMovieToFavouritesResolver,
+});
+
+export const removeMovieFromFavourites = mutationField("removeMovieFromFavourites", {
+    type: "Boolean",
+    args: { movieId: nonNull(stringArg())},
+    resolve: removeMovieFromFavouritesResolver,
+});
+
+export const getMovieFavourites = queryField("getMovieFavourites", {
+    type: list(SimpleMovie),
+    resolve: getMovieFavouritesResolver,
+});
+
+export const addMovieToWatched = mutationField("addMovieToWatched", {
+    type: "Boolean",
+    args: { movieId: nonNull(stringArg())},
+    resolve: addMovieToWatchedResolver,
+});
+
+export const removeMovieFromWatched = mutationField("removeMovieFromWatched", {
+    type: "Boolean",
+    args: { movieId: nonNull(stringArg())},
+    resolve: removeMovieFromWatchedResolver,
+});
+
+export const getWatchedMovies = queryField("getWatchedMovies", {
+    type: list(SimpleMovie),
+    resolve: getWatchedMoviesResolver,
+});
+

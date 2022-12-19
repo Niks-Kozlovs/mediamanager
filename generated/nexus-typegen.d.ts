@@ -256,9 +256,13 @@ export interface NexusGenFieldTypes {
     total_results: string; // String!
   }
   Mutation: { // field return type
+    addMovieToFavourites: boolean | null; // Boolean
+    addMovieToWatched: boolean | null; // Boolean
     addMovieToWatchlist: boolean | null; // Boolean
     createAccount: NexusGenRootTypes['registerResponse'] | null; // registerResponse
     login: NexusGenRootTypes['loginResponse'] | null; // loginResponse
+    removeMovieFromFavourites: boolean | null; // Boolean
+    removeMovieFromWatched: boolean | null; // Boolean
     removeMovieFromWatchlist: boolean | null; // Boolean
   }
   Query: { // field return type
@@ -266,6 +270,7 @@ export interface NexusGenFieldTypes {
     getAringSoonTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getMovieCredits: NexusGenRootTypes['MovieCredits'] | null; // MovieCredits
     getMovieDetails: NexusGenRootTypes['ExtendedMovieData'] | null; // ExtendedMovieData
+    getMovieFavourites: Array<NexusGenRootTypes['SimpleMovie'] | null> | null; // [SimpleMovie]
     getMovieRecomendations: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getMovieWatchlist: Array<NexusGenRootTypes['SimpleMovie'] | null> | null; // [SimpleMovie]
     getNowPlaying: NexusGenRootTypes['MovieResults'] | null; // MovieResults
@@ -279,6 +284,7 @@ export interface NexusGenFieldTypes {
     getTvShowCredits: NexusGenRootTypes['TvShowCredits'] | null; // TvShowCredits
     getTvShowRecommendations: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getUpcoming: NexusGenRootTypes['MovieResults'] | null; // MovieResults
+    getWatchedMovies: Array<NexusGenRootTypes['SimpleMovie'] | null> | null; // [SimpleMovie]
     searchMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
   }
   SimpleMovie: { // field return type
@@ -420,9 +426,13 @@ export interface NexusGenFieldTypeNames {
     total_results: 'String'
   }
   Mutation: { // field return type name
+    addMovieToFavourites: 'Boolean'
+    addMovieToWatched: 'Boolean'
     addMovieToWatchlist: 'Boolean'
     createAccount: 'registerResponse'
     login: 'loginResponse'
+    removeMovieFromFavourites: 'Boolean'
+    removeMovieFromWatched: 'Boolean'
     removeMovieFromWatchlist: 'Boolean'
   }
   Query: { // field return type name
@@ -430,6 +440,7 @@ export interface NexusGenFieldTypeNames {
     getAringSoonTvShows: 'TvShowResults'
     getMovieCredits: 'MovieCredits'
     getMovieDetails: 'ExtendedMovieData'
+    getMovieFavourites: 'SimpleMovie'
     getMovieRecomendations: 'MovieResults'
     getMovieWatchlist: 'SimpleMovie'
     getNowPlaying: 'MovieResults'
@@ -443,6 +454,7 @@ export interface NexusGenFieldTypeNames {
     getTvShowCredits: 'TvShowCredits'
     getTvShowRecommendations: 'TvShowResults'
     getUpcoming: 'MovieResults'
+    getWatchedMovies: 'SimpleMovie'
     searchMovies: 'MovieResults'
   }
   SimpleMovie: { // field return type name
@@ -516,6 +528,12 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    addMovieToFavourites: { // args
+      movieId: string; // String!
+    }
+    addMovieToWatched: { // args
+      movieId: string; // String!
+    }
     addMovieToWatchlist: { // args
       movieId: string; // String!
     }
@@ -524,6 +542,12 @@ export interface NexusGenArgTypes {
     }
     login: { // args
       credentials: NexusGenInputs['loginCredentials']; // loginCredentials!
+    }
+    removeMovieFromFavourites: { // args
+      movieId: string; // String!
+    }
+    removeMovieFromWatched: { // args
+      movieId: string; // String!
     }
     removeMovieFromWatchlist: { // args
       movieId: string; // String!

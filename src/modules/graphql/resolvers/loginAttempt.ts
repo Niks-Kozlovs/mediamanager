@@ -13,7 +13,7 @@ export const loginAttempt: FieldResolver<"Mutation", "login"> = async (_, { cred
     nookies.set({ res }, "sid", encodedToken, {
         httpOnly: true,
         domain: process.env.SERVER_DOMAIN || undefined,
-        maxAge: 60*5,
+        maxAge: 60*60,
         sameSite: true,
         secure: process.env.NODE_ENV === "production",
         path: "/",

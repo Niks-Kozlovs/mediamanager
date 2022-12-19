@@ -32,6 +32,8 @@ model MovieDetails {
   backdrop_path   String?
 
   watchlist       MovieWatchList[]
+  favourites      MovieFavourites[]
+  watched      MovieWatched[]
 }
 
 model MovieWatchList {
@@ -49,6 +51,7 @@ model MovieFavourites {
   user_id  Int
   movie_id String
   user     User         @relation(fields: [user_id], references: [id])
+  movieDetails    MovieDetails @relation(fields: [movie_id], references: [movie_id])
 
   @@map("movie_favourites")
 }
@@ -58,6 +61,7 @@ model MovieWatched {
   user_id  Int
   movie_id String
   user     User         @relation(fields: [user_id], references: [id])
+  movieDetails    MovieDetails @relation(fields: [movie_id], references: [movie_id])
 
   @@map("movie_watched")
 }

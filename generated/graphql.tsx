@@ -97,10 +97,24 @@ export type MovieResults = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addMovieToFavourites?: Maybe<Scalars['Boolean']>;
+  addMovieToWatched?: Maybe<Scalars['Boolean']>;
   addMovieToWatchlist?: Maybe<Scalars['Boolean']>;
   createAccount?: Maybe<RegisterResponse>;
   login?: Maybe<LoginResponse>;
+  removeMovieFromFavourites?: Maybe<Scalars['Boolean']>;
+  removeMovieFromWatched?: Maybe<Scalars['Boolean']>;
   removeMovieFromWatchlist?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationAddMovieToFavouritesArgs = {
+  movieId: Scalars['String'];
+};
+
+
+export type MutationAddMovieToWatchedArgs = {
+  movieId: Scalars['String'];
 };
 
 
@@ -119,6 +133,16 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationRemoveMovieFromFavouritesArgs = {
+  movieId: Scalars['String'];
+};
+
+
+export type MutationRemoveMovieFromWatchedArgs = {
+  movieId: Scalars['String'];
+};
+
+
 export type MutationRemoveMovieFromWatchlistArgs = {
   movieId: Scalars['String'];
 };
@@ -129,8 +153,9 @@ export type Query = {
   getAringSoonTvShows?: Maybe<TvShowResults>;
   getMovieCredits?: Maybe<MovieCredits>;
   getMovieDetails?: Maybe<ExtendedMovieData>;
+  getMovieFavourites?: Maybe<Array<Maybe<SimpleMovie>>>;
   getMovieRecomendations?: Maybe<MovieResults>;
-  getMovieWatchlist?: Maybe<SimpleMovie>;
+  getMovieWatchlist?: Maybe<Array<Maybe<SimpleMovie>>>;
   getNowPlaying?: Maybe<MovieResults>;
   getPopularMovies?: Maybe<MovieResults>;
   getPopularTvShows?: Maybe<TvShowResults>;
@@ -142,6 +167,7 @@ export type Query = {
   getTvShowCredits?: Maybe<TvShowCredits>;
   getTvShowRecommendations?: Maybe<TvShowResults>;
   getUpcoming?: Maybe<MovieResults>;
+  getWatchedMovies?: Maybe<Array<Maybe<SimpleMovie>>>;
   searchMovies?: Maybe<MovieResults>;
 };
 
