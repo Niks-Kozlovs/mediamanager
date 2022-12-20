@@ -53,7 +53,7 @@ export const getWatchedMoviesResolver: FieldResolver<"Query", "getWatchedMovies"
         }
     });
 
-    const list = watched.map(({ movieDetails: md }) => md);
+    const list = watched.map(({ movieDetails: md }) => { return {id: md.movie_id, ...md}});
 
     return list;
 }

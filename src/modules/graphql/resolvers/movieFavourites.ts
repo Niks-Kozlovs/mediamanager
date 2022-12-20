@@ -1,6 +1,7 @@
 import { FieldResolver } from "nexus";
 import { addMovieIfNotExist } from "../../utils/addMovieIfNotExist";
 import { getUserFromCookie } from "./loginAttempt";
+import { movieDetailsToMovie } from "../../utils/movieDetailsToMovie";
 
 export const addMovieToFavouritesResolver: FieldResolver<"Mutation", "addMovieToFavourites"> = async (_, { movieId }, ctx) => {
     const user = await getUserFromCookie(ctx);
@@ -53,7 +54,7 @@ export const getMovieFavouritesResolver: FieldResolver<"Query", "getMovieFavouri
         }
     });
 
-    const list = favourites.map(({ movieDetails: md }) => md);
+    const list = favourites.map(({ movieDetails: md }) => movieDetailsToMovie(md));
 
     return list;
 }

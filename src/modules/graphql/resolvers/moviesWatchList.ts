@@ -54,7 +54,7 @@ export const getMovieWatchListResolver: FieldResolver<"Query", "getMovieWatchlis
         }
     });
 
-    const list = watchlist.map(({ movieDetails: md }) => md);
+    const list = watchlist.map(({ movieDetails: md }) => { return {id: md.movie_id, ...md}});
 
     return list;
 }

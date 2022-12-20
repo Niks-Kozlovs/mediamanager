@@ -24,6 +24,13 @@ export const addMovieIfNotExist = async (movieId: string, ctx: Context) => {
                 original_title: movieDetails.original_title,
                 title: movieDetails.title,
                 backdrop_path: movieDetails.backdrop_path,
+                adult: movieDetails.adult,
+                genre_ids: movieDetails.genre_ids,
+                original_language: movieDetails.original_language,
+                popularity: movieDetails.popularity,
+                vote_count: movieDetails.vote_count,
+                video: movieDetails.video,
+                vote_average: movieDetails.vote_average,
             },
         });
     }

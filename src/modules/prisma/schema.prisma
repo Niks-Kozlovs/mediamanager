@@ -25,11 +25,18 @@ model User {
 model MovieDetails {
   movie_id        String            @id
   poster_path     String?
+  adult           Boolean
   overview        String?
   release_date    String
+  genre_ids       Int[]
   original_title  String
+  original_language String
   title           String
   backdrop_path   String?
+  popularity      Float
+  vote_count      Int
+  video           Boolean
+  vote_average    Float
 
   watchlist       MovieWatchList[]
   favourites      MovieFavourites[]

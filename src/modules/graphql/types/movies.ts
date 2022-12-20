@@ -32,20 +32,6 @@ const Genre = objectType({
     },
 });
 
-const SimpleMovie = objectType({
-    name: "SimpleMovie",
-    definition: (t) => {
-        t.nonNull.string("movie_id");
-        t.string("poster_path");
-        t.string("overview");
-        t.nonNull.string("release_date");
-        t.nonNull.string("original_title");
-        t.nonNull.string("title");
-        t.string("backdrop_path");
-    },
-});
-
-
 const Movie = objectType({
     name: "Movie",
     definition: (t) => {
@@ -56,7 +42,7 @@ const Movie = objectType({
         t.list.nonNull.field("genre_ids", {
             type: "Int"
         });
-        t.nonNull.int("id");
+        t.nonNull.string("id");
         t.nonNull.string("original_title");
         t.nonNull.string("original_language");
         t.nonNull.string("title");
@@ -192,7 +178,7 @@ export const removeMovieFromWatchlist = mutationField("removeMovieFromWatchlist"
 });
 
 export const getMovieWatchlist = queryField("getMovieWatchlist", {
-    type: list(SimpleMovie),
+    type: list(Movie),
     resolve: getMovieWatchListResolver,
 });
 
@@ -209,7 +195,7 @@ export const removeMovieFromFavourites = mutationField("removeMovieFromFavourite
 });
 
 export const getMovieFavourites = queryField("getMovieFavourites", {
-    type: list(SimpleMovie),
+    type: list(Movie),
     resolve: getMovieFavouritesResolver,
 });
 
@@ -226,7 +212,7 @@ export const removeMovieFromWatched = mutationField("removeMovieFromWatched", {
 });
 
 export const getWatchedMovies = queryField("getWatchedMovies", {
-    type: list(SimpleMovie),
+    type: list(Movie),
     resolve: getWatchedMoviesResolver,
 });
 

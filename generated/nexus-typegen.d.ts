@@ -83,7 +83,7 @@ export interface NexusGenObjects {
     adult: boolean; // Boolean!
     backdrop_path?: string | null; // String
     genre_ids?: number[] | null; // [Int!]
-    id: number; // Int!
+    id: string; // String!
     original_language: string; // String!
     original_title: string; // String!
     overview?: string | null; // String
@@ -107,15 +107,6 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Query: {};
-  SimpleMovie: { // root type
-    backdrop_path?: string | null; // String
-    movie_id: string; // String!
-    original_title: string; // String!
-    overview?: string | null; // String
-    poster_path?: string | null; // String
-    release_date: string; // String!
-    title: string; // String!
-  }
   TvShow: { // root type
     backdrop_path?: string | null; // String
     first_air_date: string; // String!
@@ -233,7 +224,7 @@ export interface NexusGenFieldTypes {
     adult: boolean; // Boolean!
     backdrop_path: string | null; // String
     genre_ids: number[] | null; // [Int!]
-    id: number; // Int!
+    id: string; // String!
     original_language: string; // String!
     original_title: string; // String!
     overview: string | null; // String
@@ -270,9 +261,9 @@ export interface NexusGenFieldTypes {
     getAringSoonTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getMovieCredits: NexusGenRootTypes['MovieCredits'] | null; // MovieCredits
     getMovieDetails: NexusGenRootTypes['ExtendedMovieData'] | null; // ExtendedMovieData
-    getMovieFavourites: Array<NexusGenRootTypes['SimpleMovie'] | null> | null; // [SimpleMovie]
+    getMovieFavourites: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
     getMovieRecomendations: NexusGenRootTypes['MovieResults'] | null; // MovieResults
-    getMovieWatchlist: Array<NexusGenRootTypes['SimpleMovie'] | null> | null; // [SimpleMovie]
+    getMovieWatchlist: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
     getNowPlaying: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getPopularMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getPopularTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
@@ -284,17 +275,8 @@ export interface NexusGenFieldTypes {
     getTvShowCredits: NexusGenRootTypes['TvShowCredits'] | null; // TvShowCredits
     getTvShowRecommendations: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getUpcoming: NexusGenRootTypes['MovieResults'] | null; // MovieResults
-    getWatchedMovies: Array<NexusGenRootTypes['SimpleMovie'] | null> | null; // [SimpleMovie]
+    getWatchedMovies: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
     searchMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
-  }
-  SimpleMovie: { // field return type
-    backdrop_path: string | null; // String
-    movie_id: string; // String!
-    original_title: string; // String!
-    overview: string | null; // String
-    poster_path: string | null; // String
-    release_date: string; // String!
-    title: string; // String!
   }
   TvShow: { // field return type
     backdrop_path: string | null; // String
@@ -403,7 +385,7 @@ export interface NexusGenFieldTypeNames {
     adult: 'Boolean'
     backdrop_path: 'String'
     genre_ids: 'Int'
-    id: 'Int'
+    id: 'String'
     original_language: 'String'
     original_title: 'String'
     overview: 'String'
@@ -440,9 +422,9 @@ export interface NexusGenFieldTypeNames {
     getAringSoonTvShows: 'TvShowResults'
     getMovieCredits: 'MovieCredits'
     getMovieDetails: 'ExtendedMovieData'
-    getMovieFavourites: 'SimpleMovie'
+    getMovieFavourites: 'Movie'
     getMovieRecomendations: 'MovieResults'
-    getMovieWatchlist: 'SimpleMovie'
+    getMovieWatchlist: 'Movie'
     getNowPlaying: 'MovieResults'
     getPopularMovies: 'MovieResults'
     getPopularTvShows: 'TvShowResults'
@@ -454,17 +436,8 @@ export interface NexusGenFieldTypeNames {
     getTvShowCredits: 'TvShowCredits'
     getTvShowRecommendations: 'TvShowResults'
     getUpcoming: 'MovieResults'
-    getWatchedMovies: 'SimpleMovie'
+    getWatchedMovies: 'Movie'
     searchMovies: 'MovieResults'
-  }
-  SimpleMovie: { // field return type name
-    backdrop_path: 'String'
-    movie_id: 'String'
-    original_title: 'String'
-    overview: 'String'
-    poster_path: 'String'
-    release_date: 'String'
-    title: 'String'
   }
   TvShow: { // field return type name
     backdrop_path: 'String'
