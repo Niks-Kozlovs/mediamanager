@@ -32,6 +32,7 @@ model TVWatchList {
   user     User         @relation(fields: [user_id], references: [id])
   tvDetails    TVDetails @relation(fields: [tv_id], references: [tv_id])
 
+  @@unique([user_id, tv_id])
   @@map("tv_watch_list")
 }
 
@@ -42,6 +43,7 @@ model TVFavourites {
   user     User         @relation(fields: [user_id], references: [id])
   tvDetails    TVDetails @relation(fields: [tv_id], references: [tv_id])
 
+  @@unique([user_id, tv_id])
   @@map("tv_favourites")
 }
 
@@ -52,6 +54,7 @@ model TVWatched {
   user     User         @relation(fields: [user_id], references: [id])
   tvDetails    TVDetails @relation(fields: [tv_id], references: [tv_id])
 
+  @@unique([user_id, tv_id])
   @@map("tv_watched")
 }
 
@@ -83,6 +86,7 @@ model MovieWatchList {
   user     User         @relation(fields: [user_id], references: [id])
   movieDetails    MovieDetails @relation(fields: [movie_id], references: [movie_id])
 
+  @@unique([user_id, movie_id])
   @@map("movie_watch_list")
 }
 
@@ -93,6 +97,7 @@ model MovieFavourites {
   user     User         @relation(fields: [user_id], references: [id])
   movieDetails    MovieDetails @relation(fields: [movie_id], references: [movie_id])
 
+  @@unique([user_id, movie_id])
   @@map("movie_favourites")
 }
 
@@ -103,6 +108,7 @@ model MovieWatched {
   user     User         @relation(fields: [user_id], references: [id])
   movieDetails    MovieDetails @relation(fields: [movie_id], references: [movie_id])
 
+  @@unique([user_id, movie_id])
   @@map("movie_watched")
 }
 
