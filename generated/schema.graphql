@@ -80,11 +80,17 @@ type Mutation {
   addMovieToFavourites(movieId: String!): Boolean
   addMovieToWatched(movieId: String!): Boolean
   addMovieToWatchlist(movieId: String!): Boolean
+  addTVShowToFavorites(tvShowId: String!): Boolean
+  addTVShowToWatchLater(tvShowId: String!): Boolean
+  addTVShowToWatched(tvShowId: String!): Boolean
   createAccount(credentials: registerCredentials!): registerResponse
   login(credentials: loginCredentials!): loginResponse
   removeMovieFromFavourites(movieId: String!): Boolean
   removeMovieFromWatched(movieId: String!): Boolean
   removeMovieFromWatchlist(movieId: String!): Boolean
+  removeTVShowFromFavorites(tvShowId: String!): Boolean
+  removeTVShowFromWatchLater(tvShowId: String!): Boolean
+  removeTVShowFromWatched(tvShowId: String!): Boolean
 }
 
 type Query {
@@ -100,6 +106,8 @@ type Query {
   getPopularTvShows: TvShowResults
   getSimilarMovies(movieId: Int!, page: Int): MovieResults
   getSimilarTvShows(tvShowId: Int!): TvShowResults
+  getTVShowFavorites: TvShowResults
+  getTVShowWatchLater: [TvShow]
   getTopRated: MovieResults
   getTopRatedTvShows: TvShowResults
   getTvShowAggregateCredits(tvShowId: Int!): TvShowCredits
@@ -107,6 +115,7 @@ type Query {
   getTvShowRecommendations(tvShowId: Int!): TvShowResults
   getUpcoming: MovieResults
   getWatchedMovies: [Movie]
+  getWatchedTVShows: TvShowResults
   searchMovies(page: Int, query: String!): MovieResults
 }
 

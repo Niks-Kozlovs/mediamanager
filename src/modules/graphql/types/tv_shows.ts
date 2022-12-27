@@ -1,5 +1,8 @@
-import { extendType, intArg, nonNull, objectType } from "nexus";
+import { extendType, intArg, list, nonNull, objectType, stringArg } from "nexus";
 import { makeRequest } from "../../utils/makeRequest";
+import { addTVShowToWatchedResolver, getWatchedTVShowsResolver, removeTVShowFromWatchedResolver } from "../resolvers/watchedTVShows";
+import { addTVShowToWatchLaterResolver, getWatchLaterTVShowsResolver, removeTVShowFromWatchLaterResolver } from "../resolvers/tvShowWatchlist";
+import { addTVShowToFavoritesResolver, getTVShowFavoritesResolver, removeTVShowFromFavoritesResolver } from "../resolvers/tvShowFavourites";
 
 export const getTopRatedTvShows = extendType({
     type: "Query",
@@ -85,6 +88,102 @@ export const getTvShowAggregateCredits = extendType({
     },
 });
 
+export const addTVShowToWatched = extendType({
+    type: "Mutation",
+    definition: (t) => {
+        t.field("addTVShowToWatched", {
+            type: "Boolean",
+            args: { tvShowId: nonNull(stringArg()) },
+            resolve: addTVShowToWatchedResolver,
+        });
+    },
+});
+
+export const removeTVShowFromWatched = extendType({
+    type: "Mutation",
+    definition: (t) => {
+        t.field("removeTVShowFromWatched", {
+            type: "Boolean",
+            args: { tvShowId: nonNull(stringArg()) },
+            resolve: removeTVShowFromWatchedResolver,
+        });
+    },
+});
+
+export const getWatchedTVShows = extendType({
+    type: "Query",
+    definition: (t) => {
+        t.field("getWatchedTVShows", {
+            type: tvShowResults,
+            resolve: getWatchedTVShowsResolver,
+        });
+    },
+});
+
+export const addTVShowToWatchLater = extendType({
+    type: "Mutation",
+    definition: (t) => {
+        t.field("addTVShowToWatchLater", {
+            type: "Boolean",
+            args: { tvShowId: nonNull(stringArg()) },
+            resolve: addTVShowToWatchLaterResolver,
+        });
+    },
+});
+
+export const removeTVShowFromWatchLater = extendType({
+    type: "Mutation",
+    definition: (t) => {
+        t.field("removeTVShowFromWatchLater", {
+            type: "Boolean",
+            args: { tvShowId: nonNull(stringArg()) },
+            resolve: removeTVShowFromWatchLaterResolver,
+        });
+    },
+});
+
+export const getTVShowWatchLater = extendType({
+    type: "Query",
+    definition: (t) => {
+        t.field("getTVShowWatchLater", {
+            type: list(tvShow),
+            resolve: getWatchLaterTVShowsResolver,
+        });
+    },
+});
+
+export const addTVShowToFavorites = extendType({
+    type: "Mutation",
+    definition: (t) => {
+        t.field("addTVShowToFavorites", {
+            type: "Boolean",
+            args: { tvShowId: nonNull(stringArg()) },
+            resolve: addTVShowToFavoritesResolver,
+        });
+    },
+});
+
+export const removeTVShowFromFavorites = extendType({
+    type: "Mutation",
+    definition: (t) => {
+        t.field("removeTVShowFromFavorites", {
+            type: "Boolean",
+            args: { tvShowId: nonNull(stringArg()) },
+            resolve: removeTVShowFromFavoritesResolver,
+        });
+    },
+});
+
+export const getTVShowFavorites = extendType({
+    type: "Query",
+    definition: (t) => {
+        t.field("getTVShowFavorites", {
+            type: tvShowResults,
+            resolve: getTVShowFavoritesResolver,
+        });
+    },
+});
+
 const tvShowCredits = objectType({
     name: "TvShowCredits",
     definition(t) {
@@ -127,11 +226,6 @@ const tvShowCrew = objectType({
         t.nonNull.string("job");
     },
 });
-
-
-
-
-
 
 const tvShowResults = objectType({
     name: "TvShowResults",

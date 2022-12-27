@@ -250,11 +250,17 @@ export interface NexusGenFieldTypes {
     addMovieToFavourites: boolean | null; // Boolean
     addMovieToWatched: boolean | null; // Boolean
     addMovieToWatchlist: boolean | null; // Boolean
+    addTVShowToFavorites: boolean | null; // Boolean
+    addTVShowToWatchLater: boolean | null; // Boolean
+    addTVShowToWatched: boolean | null; // Boolean
     createAccount: NexusGenRootTypes['registerResponse'] | null; // registerResponse
     login: NexusGenRootTypes['loginResponse'] | null; // loginResponse
     removeMovieFromFavourites: boolean | null; // Boolean
     removeMovieFromWatched: boolean | null; // Boolean
     removeMovieFromWatchlist: boolean | null; // Boolean
+    removeTVShowFromFavorites: boolean | null; // Boolean
+    removeTVShowFromWatchLater: boolean | null; // Boolean
+    removeTVShowFromWatched: boolean | null; // Boolean
   }
   Query: { // field return type
     getAiringTodayTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
@@ -269,6 +275,8 @@ export interface NexusGenFieldTypes {
     getPopularTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getSimilarMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getSimilarTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
+    getTVShowFavorites: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
+    getTVShowWatchLater: Array<NexusGenRootTypes['TvShow'] | null> | null; // [TvShow]
     getTopRated: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getTopRatedTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getTvShowAggregateCredits: NexusGenRootTypes['TvShowCredits'] | null; // TvShowCredits
@@ -276,6 +284,7 @@ export interface NexusGenFieldTypes {
     getTvShowRecommendations: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getUpcoming: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getWatchedMovies: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
+    getWatchedTVShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     searchMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
   }
   TvShow: { // field return type
@@ -411,11 +420,17 @@ export interface NexusGenFieldTypeNames {
     addMovieToFavourites: 'Boolean'
     addMovieToWatched: 'Boolean'
     addMovieToWatchlist: 'Boolean'
+    addTVShowToFavorites: 'Boolean'
+    addTVShowToWatchLater: 'Boolean'
+    addTVShowToWatched: 'Boolean'
     createAccount: 'registerResponse'
     login: 'loginResponse'
     removeMovieFromFavourites: 'Boolean'
     removeMovieFromWatched: 'Boolean'
     removeMovieFromWatchlist: 'Boolean'
+    removeTVShowFromFavorites: 'Boolean'
+    removeTVShowFromWatchLater: 'Boolean'
+    removeTVShowFromWatched: 'Boolean'
   }
   Query: { // field return type name
     getAiringTodayTvShows: 'TvShowResults'
@@ -430,6 +445,8 @@ export interface NexusGenFieldTypeNames {
     getPopularTvShows: 'TvShowResults'
     getSimilarMovies: 'MovieResults'
     getSimilarTvShows: 'TvShowResults'
+    getTVShowFavorites: 'TvShowResults'
+    getTVShowWatchLater: 'TvShow'
     getTopRated: 'MovieResults'
     getTopRatedTvShows: 'TvShowResults'
     getTvShowAggregateCredits: 'TvShowCredits'
@@ -437,6 +454,7 @@ export interface NexusGenFieldTypeNames {
     getTvShowRecommendations: 'TvShowResults'
     getUpcoming: 'MovieResults'
     getWatchedMovies: 'Movie'
+    getWatchedTVShows: 'TvShowResults'
     searchMovies: 'MovieResults'
   }
   TvShow: { // field return type name
@@ -510,6 +528,15 @@ export interface NexusGenArgTypes {
     addMovieToWatchlist: { // args
       movieId: string; // String!
     }
+    addTVShowToFavorites: { // args
+      tvShowId: string; // String!
+    }
+    addTVShowToWatchLater: { // args
+      tvShowId: string; // String!
+    }
+    addTVShowToWatched: { // args
+      tvShowId: string; // String!
+    }
     createAccount: { // args
       credentials: NexusGenInputs['registerCredentials']; // registerCredentials!
     }
@@ -524,6 +551,15 @@ export interface NexusGenArgTypes {
     }
     removeMovieFromWatchlist: { // args
       movieId: string; // String!
+    }
+    removeTVShowFromFavorites: { // args
+      tvShowId: string; // String!
+    }
+    removeTVShowFromWatchLater: { // args
+      tvShowId: string; // String!
+    }
+    removeTVShowFromWatched: { // args
+      tvShowId: string; // String!
     }
   }
   Query: {

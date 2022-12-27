@@ -15,11 +15,44 @@ model User {
   email      String            @unique @db.VarChar(255)
   username   String            @unique @db.VarChar(255)
   passhash   String            @db.VarChar(255)
-  watchlist  MovieWatchList[]
-  favourites MovieFavourites[]
-  watchlater MovieWatched[]
+  movie_watchlist  MovieWatchList[]
+  movie_favourites MovieFavourites[]
+  movie_watchlater MovieWatched[]
+  tv_watchlist  TVWatchList[]
+  tv_favourites TVFavourites[]
+  tv_watchlater TVWatched[]
 
   @@map("users")
+}
+
+model TVWatchList {
+  id       Int          @id @default(autoincrement())
+  user_id  Int
+  tv_id    String
+  user     User         @relation(fields: [user_id], references: [id])
+  tvDetails    TVDetails @relation(fields: [tv_id], references: [tv_id])
+
+  @@map("tv_watch_list")
+}
+
+model TVFavourites {
+  id       Int          @id @default(autoincrement())
+  user_id  Int
+  tv_id    String
+  user     User         @relation(fields: [user_id], references: [id])
+  tvDetails    TVDetails @relation(fields: [tv_id], references: [tv_id])
+
+  @@map("tv_favourites")
+}
+
+model TVWatched {
+  id       Int          @id @default(autoincrement())
+  user_id  Int
+  tv_id    String
+  user     User         @relation(fields: [user_id], references: [id])
+  tvDetails    TVDetails @relation(fields: [tv_id], references: [tv_id])
+
+  @@map("tv_watched")
 }
 
 model MovieDetails {
@@ -71,4 +104,40 @@ model MovieWatched {
   movieDetails    MovieDetails @relation(fields: [movie_id], references: [movie_id])
 
   @@map("movie_watched")
+}
+
+model TVDetails {
+  tv_id        String            @id
+  poster_path     String?
+  popularity      Float
+  backdrop_path   String?
+  vote_average    Float
+  overview        String?
+  first_air_date    String
+  origin_country String[]
+  genre_ids       Int[]
+  original_language String
+  vote_count      Int
+  name           String
+  original_name  String
+
+  seasons       TVSeason[]
+  watchlist       TVWatchList[]
+  favourites      TVFavourites[]
+  watched      TVWatched[]
+}
+
+model TVSeason {
+  id       Int          @id @default(autoincrement())
+  tv_id    String
+  season_number Int
+  air_date String
+  episode_count Int
+  name String
+  overview String
+  poster_path String
+  season_id Int
+  tvDetails TVDetails @relation(fields: [tv_id], references: [tv_id])
+
+  @@map("tv_season")
 }

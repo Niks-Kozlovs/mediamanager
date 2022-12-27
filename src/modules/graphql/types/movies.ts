@@ -1,10 +1,8 @@
-import { FieldResolver, intArg, list, mutationField, nonNull, objectType, queryField, stringArg } from "nexus"
+import { intArg, list, mutationField, nonNull, objectType, queryField, stringArg } from "nexus"
 import { makeRequest } from "../../utils/makeRequest";
-import { getUserFromCookie } from "../resolvers/loginAttempt";
-import { addMovieToWatchlistResolver, getMovieWatchListResolver, removeMovieFromWatchlistResolver } from "../resolvers/moviesWatchList";
+import { addMovieToWatchlistResolver, getMovieWatchListResolver, removeMovieFromWatchlistResolver } from "../resolvers/moviesWatchlist";
 import { addMovieToFavouritesResolver, getMovieFavouritesResolver, removeMovieFromFavouritesResolver } from "../resolvers/movieFavourites";
 import { addMovieToWatchedResolver, getWatchedMoviesResolver, removeMovieFromWatchedResolver } from "../resolvers/watchedMovies";
-// import { getMovieWatchList } from "../resolvers/moviesWatchList";
 
 const Cast = objectType({
     name: "Cast",

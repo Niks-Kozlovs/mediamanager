@@ -68,7 +68,7 @@ export type Movie = {
   adult: Scalars['Boolean'];
   backdrop_path?: Maybe<Scalars['String']>;
   genre_ids?: Maybe<Array<Scalars['Int']>>;
-  id: Scalars['Int'];
+  id: Scalars['String'];
   original_language: Scalars['String'];
   original_title: Scalars['String'];
   overview?: Maybe<Scalars['String']>;
@@ -100,11 +100,17 @@ export type Mutation = {
   addMovieToFavourites?: Maybe<Scalars['Boolean']>;
   addMovieToWatched?: Maybe<Scalars['Boolean']>;
   addMovieToWatchlist?: Maybe<Scalars['Boolean']>;
+  addTVShowToFavorites?: Maybe<Scalars['Boolean']>;
+  addTVShowToWatchLater?: Maybe<Scalars['Boolean']>;
+  addTVShowToWatched?: Maybe<Scalars['Boolean']>;
   createAccount?: Maybe<RegisterResponse>;
   login?: Maybe<LoginResponse>;
   removeMovieFromFavourites?: Maybe<Scalars['Boolean']>;
   removeMovieFromWatched?: Maybe<Scalars['Boolean']>;
   removeMovieFromWatchlist?: Maybe<Scalars['Boolean']>;
+  removeTVShowFromFavorites?: Maybe<Scalars['Boolean']>;
+  removeTVShowFromWatchLater?: Maybe<Scalars['Boolean']>;
+  removeTVShowFromWatched?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -120,6 +126,21 @@ export type MutationAddMovieToWatchedArgs = {
 
 export type MutationAddMovieToWatchlistArgs = {
   movieId: Scalars['String'];
+};
+
+
+export type MutationAddTvShowToFavoritesArgs = {
+  tvShowId: Scalars['String'];
+};
+
+
+export type MutationAddTvShowToWatchLaterArgs = {
+  tvShowId: Scalars['String'];
+};
+
+
+export type MutationAddTvShowToWatchedArgs = {
+  tvShowId: Scalars['String'];
 };
 
 
@@ -147,27 +168,45 @@ export type MutationRemoveMovieFromWatchlistArgs = {
   movieId: Scalars['String'];
 };
 
+
+export type MutationRemoveTvShowFromFavoritesArgs = {
+  tvShowId: Scalars['String'];
+};
+
+
+export type MutationRemoveTvShowFromWatchLaterArgs = {
+  tvShowId: Scalars['String'];
+};
+
+
+export type MutationRemoveTvShowFromWatchedArgs = {
+  tvShowId: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getAiringTodayTvShows?: Maybe<TvShowResults>;
   getAringSoonTvShows?: Maybe<TvShowResults>;
   getMovieCredits?: Maybe<MovieCredits>;
   getMovieDetails?: Maybe<ExtendedMovieData>;
-  getMovieFavourites?: Maybe<Array<Maybe<SimpleMovie>>>;
+  getMovieFavourites?: Maybe<Array<Maybe<Movie>>>;
   getMovieRecomendations?: Maybe<MovieResults>;
-  getMovieWatchlist?: Maybe<Array<Maybe<SimpleMovie>>>;
+  getMovieWatchlist?: Maybe<Array<Maybe<Movie>>>;
   getNowPlaying?: Maybe<MovieResults>;
   getPopularMovies?: Maybe<MovieResults>;
   getPopularTvShows?: Maybe<TvShowResults>;
   getSimilarMovies?: Maybe<MovieResults>;
   getSimilarTvShows?: Maybe<TvShowResults>;
+  getTVShowFavorites?: Maybe<TvShowResults>;
+  getTVShowWatchLater?: Maybe<Array<Maybe<TvShow>>>;
   getTopRated?: Maybe<MovieResults>;
   getTopRatedTvShows?: Maybe<TvShowResults>;
   getTvShowAggregateCredits?: Maybe<TvShowCredits>;
   getTvShowCredits?: Maybe<TvShowCredits>;
   getTvShowRecommendations?: Maybe<TvShowResults>;
   getUpcoming?: Maybe<MovieResults>;
-  getWatchedMovies?: Maybe<Array<Maybe<SimpleMovie>>>;
+  getWatchedMovies?: Maybe<Array<Maybe<Movie>>>;
+  getWatchedTVShows?: Maybe<TvShowResults>;
   searchMovies?: Maybe<MovieResults>;
 };
 
@@ -216,17 +255,6 @@ export type QueryGetTvShowRecommendationsArgs = {
 export type QuerySearchMoviesArgs = {
   page?: InputMaybe<Scalars['Int']>;
   query: Scalars['String'];
-};
-
-export type SimpleMovie = {
-  __typename?: 'SimpleMovie';
-  backdrop_path?: Maybe<Scalars['String']>;
-  movie_id: Scalars['String'];
-  original_title: Scalars['String'];
-  overview?: Maybe<Scalars['String']>;
-  poster_path?: Maybe<Scalars['String']>;
-  release_date: Scalars['String'];
-  title: Scalars['String'];
 };
 
 export type TvShow = {
