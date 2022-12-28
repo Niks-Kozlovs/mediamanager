@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
 };
 
 export type Cast = {
@@ -61,6 +62,15 @@ export type Genre = {
   __typename?: 'Genre';
   id: Scalars['Int'];
   name: Scalars['String'];
+};
+
+export type MediaUpdate = {
+  __typename?: 'MediaUpdate';
+  date?: Maybe<Scalars['Date']>;
+  id?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type Movie = {
@@ -187,6 +197,7 @@ export type Query = {
   __typename?: 'Query';
   getAiringTodayTvShows?: Maybe<TvShowResults>;
   getAringSoonTvShows?: Maybe<TvShowResults>;
+  getMediaUpdates?: Maybe<Array<Maybe<MediaUpdate>>>;
   getMovieCredits?: Maybe<MovieCredits>;
   getMovieDetails?: Maybe<ExtendedMovieData>;
   getMovieFavourites?: Maybe<Array<Maybe<Movie>>>;

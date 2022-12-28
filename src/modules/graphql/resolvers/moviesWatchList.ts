@@ -41,6 +41,7 @@ export const removeMovieFromWatchlistResolver: FieldResolver<"Mutation", "remove
     return true;
 }
 
+// @ts-expect-error - Returning more info than the schema allows
 export const getMovieWatchListResolver: FieldResolver<"Query", "getMovieWatchlist"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;

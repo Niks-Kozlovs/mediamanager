@@ -1,3 +1,4 @@
+import { MovieStatus } from "@prisma/client";
 import { Context } from "../../types/Context";
 import { makeRequest } from "./makeRequest";
 
@@ -31,7 +32,27 @@ export const addMovieIfNotExist = async (movieId: string, ctx: Context) => {
                 vote_count: movieDetails.vote_count,
                 video: movieDetails.video,
                 vote_average: movieDetails.vote_average,
+                status: getMovieStatus(movieDetails.status),
             },
         });
+    }
+}
+
+const getMovieStatus = (status: string) => {
+    switch (status) {
+        case "Rumored":
+            return MovieStatus.RUMORED;
+        case "Planned":
+            return MovieStatus.PLANNED;
+        case "In Production":
+            return MovieStatus.IN_PRODUCTION;
+        case "Post Production":
+            return MovieStatus.POST_PRODUCTION;
+        case "Released":
+            return MovieStatus.RELEASED;
+        case "Canceled":
+            return MovieStatus.CANCELED;
+        default:
+            return null;
     }
 }

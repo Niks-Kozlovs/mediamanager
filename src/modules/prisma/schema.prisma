@@ -15,6 +15,7 @@ model User {
   email      String            @unique @db.VarChar(255)
   username   String            @unique @db.VarChar(255)
   passhash   String            @db.VarChar(255)
+  last_check DateTime          @default(now())
   movie_watchlist  MovieWatchList[]
   movie_favourites MovieFavourites[]
   movie_watchlater MovieWatched[]
@@ -63,7 +64,7 @@ model MovieDetails {
   poster_path     String?
   adult           Boolean
   overview        String?
-  release_date    String
+  release_date    String?
   genre_ids       Int[]
   original_title  String
   original_language String
@@ -73,6 +74,9 @@ model MovieDetails {
   vote_count      Int
   video           Boolean
   vote_average    Float
+  status MovieStatus?
+  last_checked DateTime @default(now())
+  last_updated DateTime @updatedAt
 
   watchlist       MovieWatchList[]
   favourites      MovieFavourites[]
@@ -88,6 +92,15 @@ model MovieWatchList {
 
   @@unique([user_id, movie_id])
   @@map("movie_watch_list")
+}
+
+enum MovieStatus {
+  RUMORED
+  PLANNED
+  IN_PRODUCTION
+  POST_PRODUCTION
+  RELEASED
+  CANCELED
 }
 
 model MovieFavourites {
@@ -126,6 +139,10 @@ model TVDetails {
   vote_count      Int
   name           String
   original_name  String
+  last_checked DateTime @default(now())
+  last_updated DateTime @updatedAt
+  episode_count Int
+  in_production Boolean
 
   seasons       TVSeason[]
   watchlist       TVWatchList[]

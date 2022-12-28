@@ -40,6 +40,7 @@ export const removeTVShowFromWatchedResolver: FieldResolver<"Mutation", "removeT
     return true;
 }
 
+// @ts-expect-error - Prisma returns more info than we need
 export const getWatchedTVShowsResolver: FieldResolver<"Query", "getWatchedTVShows"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;

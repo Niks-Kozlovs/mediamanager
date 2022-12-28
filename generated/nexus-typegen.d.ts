@@ -5,8 +5,23 @@
 
 
 import type { Context } from "./../src/types/Context"
-
-
+import type { core } from "nexus"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * Date custom scalar type
+     */
+    date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Date";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * Date custom scalar type
+     */
+    date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Date";
+  }
+}
 
 
 declare global {
@@ -34,6 +49,7 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  Date: any
 }
 
 export interface NexusGenObjects {
@@ -78,6 +94,13 @@ export interface NexusGenObjects {
   Genre: { // root type
     id: number; // Int!
     name: string; // String!
+  }
+  MediaUpdate: { // root type
+    date?: NexusGenScalars['Date'] | null; // Date
+    id?: string | null; // String
+    image?: string | null; // String
+    name?: string | null; // String
+    type?: string | null; // String
   }
   Movie: { // root type
     adult: boolean; // Boolean!
@@ -220,6 +243,13 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     name: string; // String!
   }
+  MediaUpdate: { // field return type
+    date: NexusGenScalars['Date'] | null; // Date
+    id: string | null; // String
+    image: string | null; // String
+    name: string | null; // String
+    type: string | null; // String
+  }
   Movie: { // field return type
     adult: boolean; // Boolean!
     backdrop_path: string | null; // String
@@ -265,6 +295,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     getAiringTodayTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getAringSoonTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
+    getMediaUpdates: Array<NexusGenRootTypes['MediaUpdate'] | null> | null; // [MediaUpdate]
     getMovieCredits: NexusGenRootTypes['MovieCredits'] | null; // MovieCredits
     getMovieDetails: NexusGenRootTypes['ExtendedMovieData'] | null; // ExtendedMovieData
     getMovieFavourites: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
@@ -390,6 +421,13 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     name: 'String'
   }
+  MediaUpdate: { // field return type name
+    date: 'Date'
+    id: 'String'
+    image: 'String'
+    name: 'String'
+    type: 'String'
+  }
   Movie: { // field return type name
     adult: 'Boolean'
     backdrop_path: 'String'
@@ -435,6 +473,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     getAiringTodayTvShows: 'TvShowResults'
     getAringSoonTvShows: 'TvShowResults'
+    getMediaUpdates: 'MediaUpdate'
     getMovieCredits: 'MovieCredits'
     getMovieDetails: 'ExtendedMovieData'
     getMovieFavourites: 'Movie'

@@ -17,6 +17,9 @@ type Cast {
   profile_path: String
 }
 
+"""Date custom scalar type"""
+scalar Date
+
 type ExtendedMovieData {
   adult: Boolean!
   backdrop_path: String
@@ -45,6 +48,14 @@ type ExtendedMovieData {
 type Genre {
   id: Int!
   name: String!
+}
+
+type MediaUpdate {
+  date: Date
+  id: String
+  image: String
+  name: String
+  type: String
 }
 
 type Movie {
@@ -96,6 +107,7 @@ type Mutation {
 type Query {
   getAiringTodayTvShows: TvShowResults
   getAringSoonTvShows: TvShowResults
+  getMediaUpdates: [MediaUpdate]
   getMovieCredits(movieId: Int!): MovieCredits
   getMovieDetails(movieId: Int!): ExtendedMovieData
   getMovieFavourites: [Movie]

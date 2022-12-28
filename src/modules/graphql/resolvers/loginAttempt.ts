@@ -31,10 +31,6 @@ export const getUserFromCookie = async ({prisma, req}: Context) => {
         where: {
             username: decodedToken.username,
         },
-        select: {
-            username: true,
-            id: true,
-        }
     });
 
     if (!user) {

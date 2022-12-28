@@ -29,6 +29,8 @@ export const addTvShowIfNotExist = async (tvShowId: string, ctx: Context) => {
                 popularity: tvShowDetails.popularity,
                 vote_count: tvShowDetails.vote_count,
                 vote_average: tvShowDetails.vote_average,
+                episode_count: tvShowDetails.number_of_episodes,
+                in_production: tvShowDetails.in_production,
             },
         });
     }
