@@ -1,7 +1,7 @@
 import { Context } from "../../types/Context";
 import { makeRequest } from "./makeRequest";
 
-export const addTvShowIfNotExist = async (tvShowId: string, ctx: Context) => {
+export const addTvShowIfNotExist = async (tvShowId: string, ctx: Context, force?: boolean) => {
     const { prisma } = ctx;
 
     const tvShowDetails = await prisma.tVDetails.findFirst({
@@ -15,23 +15,34 @@ export const addTvShowIfNotExist = async (tvShowId: string, ctx: Context) => {
 
     if (!tvShowDetails) {
         const tvShowDetails = await makeRequest(`tv/${tvShowId}`);
-        await prisma.tVDetails.create({
-            data: {
-                tv_id: tvShowDetails.id.toString(),
-                poster_path: tvShowDetails.poster_path,
-                overview: tvShowDetails.overview,
-                first_air_date: tvShowDetails.first_air_date,
-                original_name: tvShowDetails.original_name,
-                name: tvShowDetails.name,
-                backdrop_path: tvShowDetails.backdrop_path,
-                genre_ids: tvShowDetails.genre_ids,
-                original_language: tvShowDetails.original_language,
-                popularity: tvShowDetails.popularity,
-                vote_count: tvShowDetails.vote_count,
-                vote_average: tvShowDetails.vote_average,
-                episode_count: tvShowDetails.number_of_episodes,
-                in_production: tvShowDetails.in_production,
-            },
-        });
+        const tvDetails = {
+            tv_id: tvShowDetails.id.toString(),
+            poster_path: tvShowDetails.poster_path,
+            overview: tvShowDetails.overview,
+            first_air_date: tvShowDetails.first_air_date,
+            original_name: tvShowDetails.original_name,
+            name: tvShowDetails.name,
+            backdrop_path: tvShowDetails.backdrop_path,
+            genre_ids: tvShowDetails.genre_ids,
+            original_language: tvShowDetails.original_language,
+            popularity: tvShowDetails.popularity,
+            vote_count: tvShowDetails.vote_count,
+            vote_average: tvShowDetails.vote_average,
+            episode_count: tvShowDetails.number_of_episodes,
+            in_production: tvShowDetails.in_production,
+        };
+
+        if (force) {
+            await prisma.tVDetails.update({
+                where: {
+                    tv_id: tvShowId,
+                },
+                data: tvDetails,
+            });
+        } else {
+            await prisma.tVDetails.create({
+                data: tvDetails,
+            });
+        }
     }
 }

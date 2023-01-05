@@ -2,7 +2,7 @@ import { MovieStatus } from "@prisma/client";
 import { Context } from "../../types/Context";
 import { makeRequest } from "./makeRequest";
 
-export const addMovieIfNotExist = async (movieId: string, ctx: Context) => {
+export const addMovieIfNotExist = async (movieId: string, ctx: Context, force?: boolean) => {
     const { prisma } = ctx;
 
     const movieDetails = await prisma.movieDetails.findFirst({
@@ -14,10 +14,9 @@ export const addMovieIfNotExist = async (movieId: string, ctx: Context) => {
         }
     });
 
-    if (!movieDetails) {
+    if (!movieDetails || force) {
         const movieDetails = await makeRequest(`movie/${movieId}`);
-        await prisma.movieDetails.create({
-            data: {
+        const movieData = {
                 movie_id: movieDetails.id.toString(),
                 poster_path: movieDetails.poster_path,
                 overview: movieDetails.overview,
@@ -33,8 +32,18 @@ export const addMovieIfNotExist = async (movieId: string, ctx: Context) => {
                 video: movieDetails.video,
                 vote_average: movieDetails.vote_average,
                 status: getMovieStatus(movieDetails.status),
-            },
-        });
+        };
+
+        if (force) {
+            await prisma.movieDetails.update({
+                where: {
+                    movie_id: movieId,
+                },
+                data: movieData,
+            });
+        } else {
+            await prisma.movieDetails.create({data: movieData});
+        }
     }
 }
 

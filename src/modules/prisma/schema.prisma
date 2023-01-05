@@ -75,7 +75,6 @@ model MovieDetails {
   video           Boolean
   vote_average    Float
   status MovieStatus?
-  last_checked DateTime @default(now())
   last_updated DateTime @updatedAt
 
   watchlist       MovieWatchList[]
@@ -139,7 +138,6 @@ model TVDetails {
   vote_count      Int
   name           String
   original_name  String
-  last_checked DateTime @default(now())
   last_updated DateTime @updatedAt
   episode_count Int
   in_production Boolean
