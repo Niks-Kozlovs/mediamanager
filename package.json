@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev\" \"yarn run generate --watch\"",
-    "prebuild": "yarn run build:nexus-typegen && yarn run generate",
+    "prebuild": "yarn run generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

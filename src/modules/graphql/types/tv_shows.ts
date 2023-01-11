@@ -184,6 +184,31 @@ export const getTVShowFavorites = extendType({
     },
 });
 
+export const getTVShowDetails = extendType({
+    type: "Query",
+    definition: (t) => {
+        t.field("getTVShowDetails", {
+            type: tvShowDetails,
+            args: { tvShowId: nonNull(stringArg())},
+            resolve: async (_, { tvShowId }) => await makeRequest(`tv/${tvShowId}`),
+        });
+    },
+});
+
+export const searchTVShows = extendType({
+    type: "Query",
+    definition: (t) => {
+        t.field("searchTVShows", {
+            type: tvShowResults,
+            args: { query: nonNull(stringArg()), page: intArg() },
+            resolve: async (_, { query, page }) => {
+                const encodedQuery = encodeURIComponent(query);
+                return await makeRequest('search/tv', { query: encodedQuery, page: page || 1 });
+            },
+        });
+    },
+});
+
 const tvShowCredits = objectType({
     name: "TvShowCredits",
     definition(t) {
@@ -237,6 +262,13 @@ const tvShowResults = objectType({
     },
 });
 
+const test = objectType({
+    name: "Test",
+    definition(t) {
+        t.nonNull.string("test");
+    },
+});
+
 const tvShow = objectType({
     name: "TvShow",
     definition(t) {
@@ -246,7 +278,7 @@ const tvShow = objectType({
         t.string("backdrop_path");
         t.nonNull.float("vote_average");
         t.nonNull.string("overview");
-        t.nonNull.string("first_air_date");
+        t.string("first_air_date");
         t.nonNull.list.field("origin_country", { type: "String" });
         t.nonNull.list.field("genre_ids", { type: "Int" });
         t.nonNull.string("original_language");
@@ -255,3 +287,47 @@ const tvShow = objectType({
         t.nonNull.string("original_name");
     },
 });
+
+const tvShowSeason = objectType({
+    name: "TvShowSeason",
+    definition(t) {
+        t.string("air_date");
+        t.nonNull.int("episode_count");
+        t.nonNull.int("id");
+        t.string("name");
+        t.string("overview");
+        t.string("poster_path");
+        t.nonNull.int("season_number");
+    },
+});
+
+const tvShowDetails = objectType({
+    name: "TvShowDetails",
+    definition(t) {
+        t.string("backdrop_path");
+        t.nonNull.list.field('episode_run_time', { type: 'Int' });
+        t.string("first_air_date");
+        // t.nonNull.list.field("genres", { type: tvShowGenre });
+        t.nonNull.string("homepage");
+        t.nonNull.string("id");
+        t.nonNull.boolean("in_production");
+        t.nonNull.list.field("languages", { type: "String" });
+        t.nonNull.string("last_air_date");
+        t.nonNull.string("name");
+        t.nonNull.int('number_of_episodes');
+        t.nonNull.int('number_of_seasons');
+        t.nonNull.list.field("origin_country", { type: "String" });
+        t.nonNull.string("original_language");
+        t.nonNull.string("original_name");
+        t.string("overview");
+        t.nonNull.float("popularity");
+        t.string("poster_path");
+        t.nonNull.list.field("seasons", { type: tvShowSeason });
+        t.nonNull.string("status");
+        t.nonNull.string("type");
+        t.nonNull.string("type");
+        t.nonNull.float("vote_average");
+        t.nonNull.int("vote_count");
+    },
+});
+

@@ -208,6 +208,7 @@ export type Query = {
   getPopularTvShows?: Maybe<TvShowResults>;
   getSimilarMovies?: Maybe<MovieResults>;
   getSimilarTvShows?: Maybe<TvShowResults>;
+  getTVShowDetails?: Maybe<TvShowDetails>;
   getTVShowFavorites?: Maybe<TvShowResults>;
   getTVShowWatchLater?: Maybe<Array<Maybe<TvShow>>>;
   getTopRated?: Maybe<MovieResults>;
@@ -219,6 +220,7 @@ export type Query = {
   getWatchedMovies?: Maybe<Array<Maybe<Movie>>>;
   getWatchedTVShows?: Maybe<TvShowResults>;
   searchMovies?: Maybe<MovieResults>;
+  searchTVShows?: Maybe<TvShowResults>;
 };
 
 
@@ -248,6 +250,11 @@ export type QueryGetSimilarTvShowsArgs = {
 };
 
 
+export type QueryGetTvShowDetailsArgs = {
+  tvShowId: Scalars['String'];
+};
+
+
 export type QueryGetTvShowAggregateCreditsArgs = {
   tvShowId: Scalars['Int'];
 };
@@ -268,10 +275,16 @@ export type QuerySearchMoviesArgs = {
   query: Scalars['String'];
 };
 
+
+export type QuerySearchTvShowsArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  query: Scalars['String'];
+};
+
 export type TvShow = {
   __typename?: 'TvShow';
   backdrop_path?: Maybe<Scalars['String']>;
-  first_air_date: Scalars['String'];
+  first_air_date?: Maybe<Scalars['String']>;
   genre_ids: Array<Maybe<Scalars['Int']>>;
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -322,12 +335,49 @@ export type TvShowCrew = {
   profile_path?: Maybe<Scalars['String']>;
 };
 
+export type TvShowDetails = {
+  __typename?: 'TvShowDetails';
+  backdrop_path?: Maybe<Scalars['String']>;
+  episode_run_time: Array<Maybe<Scalars['Int']>>;
+  first_air_date?: Maybe<Scalars['String']>;
+  homepage: Scalars['String'];
+  id: Scalars['String'];
+  in_production: Scalars['Boolean'];
+  languages: Array<Maybe<Scalars['String']>>;
+  last_air_date: Scalars['String'];
+  name: Scalars['String'];
+  number_of_episodes: Scalars['Int'];
+  number_of_seasons: Scalars['Int'];
+  origin_country: Array<Maybe<Scalars['String']>>;
+  original_language: Scalars['String'];
+  original_name: Scalars['String'];
+  overview?: Maybe<Scalars['String']>;
+  popularity: Scalars['Float'];
+  poster_path?: Maybe<Scalars['String']>;
+  seasons: Array<Maybe<TvShowSeason>>;
+  status: Scalars['String'];
+  type: Scalars['String'];
+  vote_average: Scalars['Float'];
+  vote_count: Scalars['Int'];
+};
+
 export type TvShowResults = {
   __typename?: 'TvShowResults';
   page: Scalars['Int'];
   results: Array<Maybe<TvShow>>;
   total_pages: Scalars['Int'];
   total_results: Scalars['Int'];
+};
+
+export type TvShowSeason = {
+  __typename?: 'TvShowSeason';
+  air_date?: Maybe<Scalars['String']>;
+  episode_count: Scalars['Int'];
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  overview?: Maybe<Scalars['String']>;
+  poster_path?: Maybe<Scalars['String']>;
+  season_number: Scalars['Int'];
 };
 
 export type LoginCredentials = {

@@ -118,6 +118,7 @@ type Query {
   getPopularTvShows: TvShowResults
   getSimilarMovies(movieId: Int!, page: Int): MovieResults
   getSimilarTvShows(tvShowId: Int!): TvShowResults
+  getTVShowDetails(tvShowId: String!): TvShowDetails
   getTVShowFavorites: TvShowResults
   getTVShowWatchLater: [TvShow]
   getTopRated: MovieResults
@@ -129,11 +130,12 @@ type Query {
   getWatchedMovies: [Movie]
   getWatchedTVShows: TvShowResults
   searchMovies(page: Int, query: String!): MovieResults
+  searchTVShows(page: Int, query: String!): TvShowResults
 }
 
 type TvShow {
   backdrop_path: String
-  first_air_date: String!
+  first_air_date: String
   genre_ids: [Int]!
   id: Int!
   name: String!
@@ -181,11 +183,46 @@ type TvShowCrew {
   profile_path: String
 }
 
+type TvShowDetails {
+  backdrop_path: String
+  episode_run_time: [Int]!
+  first_air_date: String
+  homepage: String!
+  id: String!
+  in_production: Boolean!
+  languages: [String]!
+  last_air_date: String!
+  name: String!
+  number_of_episodes: Int!
+  number_of_seasons: Int!
+  origin_country: [String]!
+  original_language: String!
+  original_name: String!
+  overview: String
+  popularity: Float!
+  poster_path: String
+  seasons: [TvShowSeason]!
+  status: String!
+  type: String!
+  vote_average: Float!
+  vote_count: Int!
+}
+
 type TvShowResults {
   page: Int!
   results: [TvShow]!
   total_pages: Int!
   total_results: Int!
+}
+
+type TvShowSeason {
+  air_date: String
+  episode_count: Int!
+  id: Int!
+  name: String
+  overview: String
+  poster_path: String
+  season_number: Int!
 }
 
 input loginCredentials {

@@ -132,7 +132,7 @@ export interface NexusGenObjects {
   Query: {};
   TvShow: { // root type
     backdrop_path?: string | null; // String
-    first_air_date: string; // String!
+    first_air_date?: string | null; // String
     genre_ids: Array<number | null>; // [Int]!
     id: number; // Int!
     name: string; // String!
@@ -176,11 +176,44 @@ export interface NexusGenObjects {
     popularity: number; // Float!
     profile_path?: string | null; // String
   }
+  TvShowDetails: { // root type
+    backdrop_path?: string | null; // String
+    episode_run_time: Array<number | null>; // [Int]!
+    first_air_date?: string | null; // String
+    homepage: string; // String!
+    id: string; // String!
+    in_production: boolean; // Boolean!
+    languages: Array<string | null>; // [String]!
+    last_air_date: string; // String!
+    name: string; // String!
+    number_of_episodes: number; // Int!
+    number_of_seasons: number; // Int!
+    origin_country: Array<string | null>; // [String]!
+    original_language: string; // String!
+    original_name: string; // String!
+    overview?: string | null; // String
+    popularity: number; // Float!
+    poster_path?: string | null; // String
+    seasons: Array<NexusGenRootTypes['TvShowSeason'] | null>; // [TvShowSeason]!
+    status: string; // String!
+    type: string; // String!
+    vote_average: number; // Float!
+    vote_count: number; // Int!
+  }
   TvShowResults: { // root type
     page: number; // Int!
     results: Array<NexusGenRootTypes['TvShow'] | null>; // [TvShow]!
     total_pages: number; // Int!
     total_results: number; // Int!
+  }
+  TvShowSeason: { // root type
+    air_date?: string | null; // String
+    episode_count: number; // Int!
+    id: number; // Int!
+    name?: string | null; // String
+    overview?: string | null; // String
+    poster_path?: string | null; // String
+    season_number: number; // Int!
   }
   loginResponse: { // root type
     username?: string | null; // String
@@ -306,6 +339,7 @@ export interface NexusGenFieldTypes {
     getPopularTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getSimilarMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
     getSimilarTvShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
+    getTVShowDetails: NexusGenRootTypes['TvShowDetails'] | null; // TvShowDetails
     getTVShowFavorites: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     getTVShowWatchLater: Array<NexusGenRootTypes['TvShow'] | null> | null; // [TvShow]
     getTopRated: NexusGenRootTypes['MovieResults'] | null; // MovieResults
@@ -317,10 +351,11 @@ export interface NexusGenFieldTypes {
     getWatchedMovies: Array<NexusGenRootTypes['Movie'] | null> | null; // [Movie]
     getWatchedTVShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
     searchMovies: NexusGenRootTypes['MovieResults'] | null; // MovieResults
+    searchTVShows: NexusGenRootTypes['TvShowResults'] | null; // TvShowResults
   }
   TvShow: { // field return type
     backdrop_path: string | null; // String
-    first_air_date: string; // String!
+    first_air_date: string | null; // String
     genre_ids: Array<number | null>; // [Int]!
     id: number; // Int!
     name: string; // String!
@@ -364,11 +399,44 @@ export interface NexusGenFieldTypes {
     popularity: number; // Float!
     profile_path: string | null; // String
   }
+  TvShowDetails: { // field return type
+    backdrop_path: string | null; // String
+    episode_run_time: Array<number | null>; // [Int]!
+    first_air_date: string | null; // String
+    homepage: string; // String!
+    id: string; // String!
+    in_production: boolean; // Boolean!
+    languages: Array<string | null>; // [String]!
+    last_air_date: string; // String!
+    name: string; // String!
+    number_of_episodes: number; // Int!
+    number_of_seasons: number; // Int!
+    origin_country: Array<string | null>; // [String]!
+    original_language: string; // String!
+    original_name: string; // String!
+    overview: string | null; // String
+    popularity: number; // Float!
+    poster_path: string | null; // String
+    seasons: Array<NexusGenRootTypes['TvShowSeason'] | null>; // [TvShowSeason]!
+    status: string; // String!
+    type: string; // String!
+    vote_average: number; // Float!
+    vote_count: number; // Int!
+  }
   TvShowResults: { // field return type
     page: number; // Int!
     results: Array<NexusGenRootTypes['TvShow'] | null>; // [TvShow]!
     total_pages: number; // Int!
     total_results: number; // Int!
+  }
+  TvShowSeason: { // field return type
+    air_date: string | null; // String
+    episode_count: number; // Int!
+    id: number; // Int!
+    name: string | null; // String
+    overview: string | null; // String
+    poster_path: string | null; // String
+    season_number: number; // Int!
   }
   loginResponse: { // field return type
     username: string | null; // String
@@ -484,6 +552,7 @@ export interface NexusGenFieldTypeNames {
     getPopularTvShows: 'TvShowResults'
     getSimilarMovies: 'MovieResults'
     getSimilarTvShows: 'TvShowResults'
+    getTVShowDetails: 'TvShowDetails'
     getTVShowFavorites: 'TvShowResults'
     getTVShowWatchLater: 'TvShow'
     getTopRated: 'MovieResults'
@@ -495,6 +564,7 @@ export interface NexusGenFieldTypeNames {
     getWatchedMovies: 'Movie'
     getWatchedTVShows: 'TvShowResults'
     searchMovies: 'MovieResults'
+    searchTVShows: 'TvShowResults'
   }
   TvShow: { // field return type name
     backdrop_path: 'String'
@@ -542,11 +612,44 @@ export interface NexusGenFieldTypeNames {
     popularity: 'Float'
     profile_path: 'String'
   }
+  TvShowDetails: { // field return type name
+    backdrop_path: 'String'
+    episode_run_time: 'Int'
+    first_air_date: 'String'
+    homepage: 'String'
+    id: 'String'
+    in_production: 'Boolean'
+    languages: 'String'
+    last_air_date: 'String'
+    name: 'String'
+    number_of_episodes: 'Int'
+    number_of_seasons: 'Int'
+    origin_country: 'String'
+    original_language: 'String'
+    original_name: 'String'
+    overview: 'String'
+    popularity: 'Float'
+    poster_path: 'String'
+    seasons: 'TvShowSeason'
+    status: 'String'
+    type: 'String'
+    vote_average: 'Float'
+    vote_count: 'Int'
+  }
   TvShowResults: { // field return type name
     page: 'Int'
     results: 'TvShow'
     total_pages: 'Int'
     total_results: 'Int'
+  }
+  TvShowSeason: { // field return type name
+    air_date: 'String'
+    episode_count: 'Int'
+    id: 'Int'
+    name: 'String'
+    overview: 'String'
+    poster_path: 'String'
+    season_number: 'Int'
   }
   loginResponse: { // field return type name
     username: 'String'
@@ -618,6 +721,9 @@ export interface NexusGenArgTypes {
     getSimilarTvShows: { // args
       tvShowId: number; // Int!
     }
+    getTVShowDetails: { // args
+      tvShowId: string; // String!
+    }
     getTvShowAggregateCredits: { // args
       tvShowId: number; // Int!
     }
@@ -628,6 +734,10 @@ export interface NexusGenArgTypes {
       tvShowId: number; // Int!
     }
     searchMovies: { // args
+      page?: number | null; // Int
+      query: string; // String!
+    }
+    searchTVShows: { // args
       page?: number | null; // Int
       query: string; // String!
     }

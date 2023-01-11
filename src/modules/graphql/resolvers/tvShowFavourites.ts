@@ -40,6 +40,7 @@ export const removeTVShowFromFavoritesResolver: FieldResolver<"Mutation", "remov
     return true;
 }
 
+//@ts-ignore
 export const getTVShowFavoritesResolver: FieldResolver<"Query", "getTVShowFavorites"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;
@@ -53,7 +54,7 @@ export const getTVShowFavoritesResolver: FieldResolver<"Query", "getTVShowFavori
         }
     });
 
-    const list = favorites.map(({ tvDetails: md }) => { return {id: md.tv_id, ...md}});
+    const list = favorites.map(({ tvDetails: md }: any) => { return {id: md.tv_id, ...md}});
 
     return list;
 }

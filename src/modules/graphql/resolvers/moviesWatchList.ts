@@ -41,7 +41,6 @@ export const removeMovieFromWatchlistResolver: FieldResolver<"Mutation", "remove
     return true;
 }
 
-// @ts-expect-error - Returning more info than the schema allows
 export const getMovieWatchListResolver: FieldResolver<"Query", "getMovieWatchlist"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;
@@ -55,7 +54,7 @@ export const getMovieWatchListResolver: FieldResolver<"Query", "getMovieWatchlis
         }
     });
 
-    const list = watchlist.map(({ movieDetails: md }) => { return {id: md.movie_id, ...md}});
+    const list = watchlist.map(({ movieDetails: md }: any) => { return {id: md.movie_id, ...md}});
 
     return list;
 }

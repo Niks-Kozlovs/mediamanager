@@ -40,6 +40,7 @@ export const removeMovieFromWatchedResolver: FieldResolver<"Mutation", "removeMo
     return true;
 }
 
+//@ts-ignore
 export const getWatchedMoviesResolver: FieldResolver<"Query", "getWatchedMovies"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;

@@ -41,6 +41,7 @@ export const removeMovieFromFavouritesResolver: FieldResolver<"Mutation", "remov
     return true;
 }
 
+//@ts-ignore
 export const getMovieFavouritesResolver: FieldResolver<"Query", "getMovieFavourites"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;
@@ -54,7 +55,7 @@ export const getMovieFavouritesResolver: FieldResolver<"Query", "getMovieFavouri
         }
     });
 
-    const list = favourites.map(({ movieDetails: md }) => movieDetailsToMovie(md));
+    const list = favourites.map(({ movieDetails: md }: any) => movieDetailsToMovie(md));
 
     return list;
 }

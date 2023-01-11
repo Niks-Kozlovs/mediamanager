@@ -40,6 +40,7 @@ export const removeTVShowFromWatchLaterResolver: FieldResolver<"Mutation", "remo
     return true;
 }
 
+//@ts-ignore
 export const getWatchLaterTVShowsResolver: FieldResolver<"Query", "getTVShowWatchLater"> = async (_, __, ctx) => {
     const user = await getUserFromCookie(ctx);
     const { prisma } = ctx;
